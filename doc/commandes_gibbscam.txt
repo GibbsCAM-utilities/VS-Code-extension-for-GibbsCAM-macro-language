@@ -1,0 +1,2812 @@
+All Macro Commands
+
+PERMANENT	<var name>, <var name>, <var name> (max 50 variables)
+GLOBAL	<var name>, <var name>, <var name> (max 50 variables)
+LOCAL	<var name>, <var name>, <var name> (max 50 variables)
+
+
+Global variables can be used by any macro that is called in a macro session. Local variables can only be used in the macro where they are defined. Permanent variables are retained when the macro has finished. These values will be available to another macro that is run from the plugins menu.
+ARGS	<var name>, <var name>, <var name> (max 50 variables)
+
+Define the list of arguments passed to this macro when it is called by another macro. These variables will be local to this macro
+
+
+IF	<value> <condition> <value> THEN
+
+Use IF to check if values are the same or different, or if one value is greater than or less than another. Either add the command to be exectuted after the THEN keyword.
+
+FOR	<variable> = <start> TO <end> [STEP <value>]
+NEXT	<variable>
+CONTINUE
+
+Execute all of the commands between FOR and NEXT using the <variable> as a counter. The first time through the loop it will be set to the <start> value. When the NEXT command is reached the <variable> will be incremented by adding the STEP value (if no STEP value is programmed, the increment will be 1)  If the <variable> value is less than or equal to the <end> value, the macro will jump back to execute the command immediately after the FOR command. When the CONTINUE is used inside a FOR/NEXT loop it has the same effect as jumping straight to the NEXT command and incrementing the <variable>
+
+
+GOTO	<label>
+CALL	<macro name> [<arg 1>, <arg2>, <arg3> (max 10 arguments)]
+
+Use the GOTO command to jump to a new line in the macro. The <label> is a text string, and the line to jump to is defined by inserting a line containing just the label, followed by a colon ':' Use the CALL command to call another macro. You may optionally pass up to 10 arguments (values) to the macro. The macro that is called must contain an ARGS command followed by a matching number of variable names to receive the values of each argument.
+
+#INCLUDE <filename>
+You can define commonly used sections of macro code in a separate file and
+insert it using the #INCLUDE command. When the macro is executed this code is
+treated as though it was already inside the macro file, so you must take that any
+variables used match those already defined in the macro into which it is inserted.
+
+When assigning a value to a variable, you can use expressions that contain
+any of the the following internal functions.
+
+ABS(n)   (get the absolute value the number 'n', positive value)
+INT(n)   (get the integer part of the value 'n')
+SQRT(n)  (get the square root of the number 'n')
+
+SIN(a)   (sine of the angle 'a')
+COS(a)   (cosine of the angle 'a')
+TAN(a)   (tangent of the angle 'a')
+ASIN(n)  (angle whose sine is the given value 'n')
+ACOS(n)  (angle whose cosine is the given value 'n')
+ATAN(n)  (angle whose tangent is the given value 'n')
+
+LEN(a$)   (number of characters in the given string)
+VAL(a$)   (value of a string)
+ASC(a$)   (ascii code of a string variable, must be a single character)
+
+LEFT$(a$,n)   (get the 'n' leftmost characters from the string)
+RIGHT$(a$,n)  (get the 'n' rightmost characters from the string)
+MID$(a$,p,n)  (get 'n' characters from the string, starting at the 'p'th character)
+
+LTRIM$(a$)    (trim any leading spaces from the string)
+RTRIM$(a$)    (trim any trailing spaces from the string)
+TRIM$(a$)     (trim leading spaces and trailing from the string)
+
+LCASE$(a$)    (convert a string to upper case)
+UCASE$(a$)    (convert a string to lower case)
+CHR$(n)       (get the character that represents the ascii value 'n')
+
+ANGLE_LINE(x,y)   (get the angle of a line with the given X and Y components)
+
+
+CREATING GEOMETRY
+
+POINT_XY	<point number> <x> <y>
+POINT_CA	<point number> <circle> <angle>
+POINT_2L	<point number> <line> <line>
+POINT_LC	<point number> <line> <circle>
+POINT_2C	<point number> <circle> <circle>
+POINT_2P	<point number> <point> <point>
+POINT_COPY	<point number> <new point number>
+POINT_TRANSLATE	<point number> <dx> <dy>
+POINT_ROTATE	<point number> <xc> <yc> <angle>
+POINT_MIRROR	<point number> <axis> <val>
+
+POINT_GET_DATA	<point number> <x> <y>
+
+CREATE_POINT	<point number>
+
+In each case <point number> is the number of the point (1 to 100) to be defined.This is a number used by the macro to create other geometry. <point> <line> and <circle> refer to previously defined points,  lines and circles and should be given in the format P1, L8, C25. <axis> must be one of X, Y, H or V. POINT_GET_DATA is used to set 2 variables to the X and Y position of the point. The CREATE_POINT command will create a real point in GibbsCAM from the macro point definition. This point number will be set in the variable PointRef so that you can select this point for use within the macro.
+
+LINE_2P	<line number> <point> <point>
+LINE_HP	<line number> <point>
+LINE_VP	<line number> <point>
+LINE_PA	<line number> <point> <angle>
+LINE_PC	<line number> <point> <circle> <option>
+LINE_CA	<line number> <circle> <angle> <option>
+LINE_2C	<line number> <circle> <circle> <option>
+LINE_LD	<line number> <line> <distance>
+
+LINE_COPY	<line number> <new line number>
+
+CREATE_LINE	<line number>
+
+Some line definitions will have multiple solutions. In these cases the <option> value must be set to the required solution. In the case of LINE_2C there are 4 solutions, so the <option> value must be 1 to 4, the other line definitions that have multiple solutions have 2 options.
+
+CIRCLE_CR	<circle number> <point>
+CIRCLE_CP	<circle number> <point> <rad>
+CIRCLE_2P	<circle number> <point> <point>
+CIRCLE_2PR	<circle number> <point> <point> <rad>
+CIRCLE_2LR	<circle number> <line> <line> <rad>
+CIRCLE_3P	<circle number> <point> <point> <point>
+CIRCLE_PL	<circle number> <point> <line> <option>
+CIRCLE_PLR	<circle number> <point> <line> <rad> <option>
+CIRCLE_PC	<circle number> <point> <circle>
+CIRCLE_PCR	<circle number> <point> <circle> <rad> option>
+CIRCLE_LCR	<circle number> <line> <circle> <rad> <option>
+CIRCLE_2CR	<circle number> <circle> <circle> <rad> <option>
+
+CIRCLE_COPY	<circle number> <new circle number>
+
+CIRCLE_TRANSLATE	<circle number> <dx> <dy>
+CIRCLE_ROTATE	<circle number> <xc> <yc> <angle>
+CIRCLE_MIRROR	<circle number> <axis> <val>
+
+CIRCLE_GET_DATA	<circle number> <cx> <yc> <rad>
+CREATE_CIRCLE	<circle number>
+
+
+CONTOUR
+CONTOUR_3D
+START	<xs> <ys> [<zs>]
+RAPID	<xe> <ye> [<ze>]
+LINE	<xe> <ye> [<ze>]
+ARC	<xc> <yc> <xe> <ye> [<ze>] <CW/CCW>
+
+CONTOUR is used to define a 2D shape The first line after CONTOUR command must be an open square bracket ‘[‘. Then use the START command to specify the start position of the contour, followed by a series of LINE and/or ARC commands to define the end of each line/arc feature in the contour. After the final feature has been defined, add a line containing a close square bracket ‘]’. Where an XY position needs to be defined, you may replace this with a point number (eg P16). The arc center position may be replaced by a circle number (eg C21). Once the contour has been created, the variable ContourRef will be set to the number of the first feature in the contour. This may then be used to select the shape.
+
+
+POINTS
+POINT	<x> <y>
+
+Create a set of points. As with the CONTOUR command, there needs to be an open square bracket before the first point definition and a close square bracket after the last point definition. Once the points have been created, they will all be selected.
+
+
+FIT_CURVE	<tolerance> <mode>
+
+Fit a curve using all of the points that were defined by the previous POINTS command. The <mode> should be set to UNIFORM, CHORD_LEN, FOLEY or CENTRIPETAL.
+SEGMENT_SEL_CURVE <tolerance>, <LINES/ARCS>
+
+CREATE_FILLET <geo ref> <radius>
+CREATE_CHAMFER <geo ref> <type> <radius>
+
+<geo ref> is the reference number of the corner point
+For chamfers, there are 3 options (1, 2, 3) that match
+the three chamfer types on the geometry pallette
+
+The original point <geo ref> is not removed by these commands.
+If you no longer need it after a fillet or chamfer,
+then you should use DELETE_GEO to remove it.
+
+
+SELECT_GEO <ref number>
+DESELECT_GEO <ref number>
+
+SELECT_ALL_GEO
+DESELECT_ALL_GEO
+
+SELECT_SHAPE <ref number>
+SET_MARKERS <side>  <start dist> <end num> <end dist> [<dir> <single feature>]
+<side> is set to 0, 1 or 2 for NONE, LEFT or RIGHT
+<start num> and <end num> are set to 1 for the first feature in the shape, 2 for the second etc
+<start dist> and <end dist> are the distance along the feature, as a fraction of the feature length. 0 is the start, 1 is the end, 0.5 is half way along. -0.1 would be 10% before the start
+
+DESELECT_SHAPE <ref number>
+
+
+SELECT_HOLE <hole number>
+DESELECT_HOLE <hole number>
+
+SELECT_ALL_HOLES
+DESELECT_ALL_HOLES
+
+GET_LINE_FEED_STATUS <ref> <status>
+SET_LINE_FEED_STATUS <ref> <status>
+Use to toggle the feed status of a line.
+<status> is set to 0 for rapid, 1 for feed.
+
+GET_GEO_ATTR_COLOR <geo ref number> <red> <green> <blue>
+SET_GEO_ATTR_COLOR <geo ref number> <red> <green> <blue>
+SELECT_GEO_ATTR_COLOR <geo ref number> <red> <green> <blue>
+
+<red> <green> <blue> values must be between 0 and 256
+Selecting geometry by color attribute will select all
+Points, Lines, Circles, Arcs and Curves with the given color
+
+GET_GEO_USER_COLOR <geo ref number> <red> <green> <blue>
+SET_GEO_USER_COLOR <geo ref number> <red> <green> <blue>
+SELECT_GEO_BY_USER_COLOR <geo ref number> <red> <green> <blue> [<0=replace selection, 1=add to selection>]
+
+DELETE_GEO <ref number>
+DELETE_SHAPE <ref number>
+
+GET_SELECTION_LIST <list number>
+SET_SELECTION_LIST <list number> <add>
+
+Up to 10 selection lists can be used. Save all of the currently selected geometry as a list number so it can be re-selected later. When using SET_SELECTION_LIST the <add> parameter is set to 1 ro add the selection list to currently selected geometry. set to 0 to deselect all geometry and then select the geometry list
+
+
+GET_NUM_FEAT_SELECTED <num features>
+GET_SELECTED_GEO_REF <feature num> <geo ref>
+GET_FEAT_TYPE <feature num> <type>
+GET_FEAT_START <geo ref> <cs> <xs> <ys> [<zs>]
+GET_FEAT_END <geo ref> <cs> <xe> <ye> [<ze>]
+GET_CIRCLE_DATA <geo ref> <cs> <rad> <yc> <yc> [<zc>]
+GET_ARC_DATA <geo ref> <cs> <rad> <yc> <yc> [<zc>]
+
+<cs> set to 0 to get data in the local feature CS, 1 for the world CS.
+
+GET_SELECTED_EXTENTS <xmin> <ymin> <zmin> <xmax> <ymax> <zmax>
+
+SORT_GEO <sort type> <main axis x> <scan height> <max gap> <plus X> <plus Y>
+
+GET_NUM_SELECTED_SHAPES <type> <num shapes>
+<type> must be OPEN, CLOSED or OPEN+CLOSED
+
+GET_PROFILER_STATE <on/off>
+GET_PROFILER_DEPTH <depth>
+
+SET_PROFILER_STATE <on/off>
+SET_PROFILER_DEPTH <depth>
+
+GET_NUM_PROFILER_SHAPES <type> <all/selected>
+<type> must be OPEN or CLOSED
+
+GET_PROFILER_SHAPE_SELECTED <shape> <selected>
+SET_PROFILER_SHAPE_SELECTED <shape> <selected>
+
+GET_SHAPE_DATA <shape> <parameter> <value>
+<parameter> must be one of the following:
+OPEN, CLOSED, DIR_CW, DIR_CCW
+SHAPE, HOLE, INNER, OUTER
+AREA, LENGTH, EXTENTS, CENTER, RADIUS
+
+GET_SHAPE_PATH <shape> <path number>
+
+FILTER_SHAPES <keep/remove> <shape type> <number of shapes remaining>
+<shape type> OPEN, CLOSED, DIR_CW, DIR_CCW, SHAPES, HOLES, INNERS, OUTERS
+SORT_SHAPES <sort type> <sort method>
+<sort type> must be AREA or LENGTH
+<sort method> SMALLEST_FIRST or LARGEST_FIRST
+
+SET_PROFILER_MARKERS <shape> <side> <start element> <start dist> <end element> <end dist> <single element>
+
+COMBINE_SHAPES <method> [<keep original shapes>]
+Combine selected shapes, <method> must be one of:
+UNION, DIFFERENCE, INTERSECTION, TRIM_INSIDE, TRIM_OUTSIDE, SLICE
+
+GET_ENGRAVE_DATA <parameter> <variable>
+SET_ENGRAVE_DATA <parameter> <value>
+<parameter> must be one of:
+JUSTIFY
+POSITION
+TEXT_SHAPE
+TEXT_FLOW
+LINES_FLOW
+POS_X
+POS_Y
+POS_Z
+HEIGHT
+DIST_CHARS
+DIST_WORDS
+DIST_LINES
+RADIUS
+ANGLE
+
+CREATE_ENGRAVE_TEXT <text>
+
+For non-lathe geometry
+TRANSLATE_GEO <DX> <DY> <DZ>
+ROTATE_GEO  <XC> <YC> <ANGLE>
+MIRROR_GEO  <axis> <val>
+<axis> = X, Y, H or V
+<val> = axis co-ordinate
+
+For lathe geometry
+TRANSLATE_GEO <DZ> <DX>
+ROTATE_GEO <ZC> <XC> <ANGLE>
+MIRROR_GEO  <axis> <val>
+<axis> = Z, X, H or V
+<val> = axis co-ordinate
+
+For all geometry
+SCALE_GEO <scale factor>
+FORCE_DEPTH <depth>
+
+
+SELECT_SOLID <solid number>
+DESELECT_SOLID <solid number>
+
+SELECT_ALL_SOLIDS
+DESELECT_ALL_SOLIDS
+
+SELECT_FACE <solid> <face>
+SELECT_EDGE <solid> <edge>
+SELECT_FACE_EDGES <solid> <face>
+EXTRACT_SEL_EDGE
+
+DELETE_SOLID <solid number>
+COPY_SOLID <original solid number> <new solid number>
+EXPLODE_SOLID <solid number> <num solids> <array:list of solids>
+
+EXTRUDE <z start> <z end>
+EXTRUDE_SURF <z start> <z end>
+REVOLVE <axis> <angle>
+<axis> must be H or V
+The variable SolidRef is set to the number of the solid created
+
+TRANSLATE_SOLID <dx> <dy> <dz> [<number of copies>]
+ROTATE_SOLID <xc> <yc> <angle> [<number of copies>]
+MIRROR_SOLID <axis> <coord> [<number of copies>]
+<axis> must be X, Y, H or V
+SCALE_SOLID <factor>
+TRANSFORM_SOLID <matrix> [<number of copies>]
+
+Each transformation will result in a change in the solid number
+The variable SolidRef is set to the new number
+
+SOLID_UNION <solid 1> <solid 2>
+SOLID_SUBTRACT <solid 1> <solid 2>
+SOLID_INTERSECT <solid 1> <solid 2>
+
+The variable SolidRef is set to the number of the new solid
+
+GET_SOLID_BAGGED <solid number> <status>
+SET_SOLID_BAGGED <solid number> <status>
+
+GET_SOLID_TYPE <solid number> <type>
+SET_SOLID_TYPE <solid number> <type>
+
+GET_SOLID_NAME <solid number> <name>
+SET_SOLID_NAME <solid number> <name>
+
+GET_SOLID_COMMENT <solid number> <comment>
+SET_SOLID_COMMENT <solid number> <comment>
+
+GET_SOLID_FACE_UV <solid number> <face number> <u1> <v1> <u2> <v2
+GET_SOLID_FACE_POINT <solid number> <face number> <u> <v> <x> <y> <z>
+GET_SOLID_FACE_NORMAL <solid number> <face number> <u> <v> <x> <y> <z>
+GET_FACE_TYPE <solid> <face> <type>
+GET_FACE_RADIUS <solid> <face> <radius>
+
+GET_SOLID_EXTENTS <solid> <xmin> <ymin> <zmin> <xmax> <ymax> <zmax>
+GET_FACE_EXTENTS <solid> <face> <xmin> <ymin> <zmin> <xmax> <ymax> <zmax>
+GET_EDGE_EXTENTS <solid> <edge> <xmin> <ymin> <zmin> <xmax> <ymax> <zmax>
+GET_SOLID_SHRINK_WRAP_BOX <solid> <xmin> <ymin> <zmin> <xmax> <ymax> <zmax>
+
+GET_SOLID_CS <solid number> <cs number>
+SET_SOLID_CS <solid number> <cs number> [<option>]
+
+<option> = 0, move the solid to align it with the given CS
+this option will not change the CS of the solid.
+
+<option> = 1, same as Modify->Change CS (HVD)
+<option> = 2, same as Modify->Change CS (XYZ)
+
+Changing the CS for a solid may result in a change in a change in
+the solid number. The variable SolidRef is set to the new number
+
+Note: The [<option>] parameter was added to SET_SOLID_CS
+in version 9.5.9, prior to that the command have the
+same effect as setting the <option> parameter to zero.
+
+
+GET_EDGE_USER_COLOR <solid> <face> <red> <green> <blue>
+GET_FACE_USER_COLOR <solid> <face> <red> <green> <blue>
+SET_EDGE_USER_COLOR <solid> <face> <red> <green> <blue>
+SET_FACE_USER_COLOR <solid> <face> <red> <green> <blue>
+SELECT_FACE_BY_USER_COLOR <solid> <red> <green> <blue> [<0=replace selection, 1=add to selection>]
+SELECT_EDGE_BY_USER_COLOR <solid> <red> <green> <blue> [<0=replace selection, 1=add to selection>]
+
+IS_BODY_BAG_OPEN <variable name>
+OPEN_BODY_BAG (no arguments)
+CLOSE_BODY_BAG (no arguments)
+
+SOLID_REBUILD [<solid number>]
+SOLID_CLEAR_HISTORY [<solid number>]
+SOLID_REMOVE_UNEEDED_TOPOLOGY [<solid number>]
+SOLID_SIMPLIFY [<solid number>]
+SOLID_CHECK_BODY_VALIDITY [<solid number>]
+SOLID_CHECK_FACE_VALIDITY [<solid number>]
+SOLID_MACHINING_FACE_CHECK [<solid number>]
+
+Do not specify a solid number (or use -1) to use selected solids
+
+GET_NUM_FEATURES <number of features>
+GET_FEATURE_NUMBER <feature name> <feature number>
+GET_FEATURE_DATA <feature number> <parameter> <data>
+SELECT_FEATURE <feature id or name>
+CREATE_FEATURE <feature name> <red> <green> <blue> [<feature id>]
+
+Feature Parameters
+
+ID
+NAME
+
+
+CREATE_MILL_TOOL <tool number>
+CREATE_LATHE_TOOL <tool number>
+DELETE_TOOL <tool number>
+MOVE_TOOL_TILE <from tile> <to tile> [<insert tile>]
+INSERT_TOOL_TILE <before tool number>
+GET_TOOL_LIST_SHOWN <visible>
+SHOW_TOOL_LIST (no arguments)
+HIDE_TOOL_LIST (no arguments)
+REDRAW_TOOL_LIST (no arguments)
+SCROLL_TOOL_LIST <first tile>
+
+GET_TOOL_STATUS <tool number> <status>
+GET_TOOL_SELECTED <tool number> <selected>
+
+SELECT_TOOL <tool number>
+SELECT_ALL_TOOLS
+DESELECT_TOOL <tool number>
+DESELECT_ALL_TOOLS
+
+GET_TOOL_DATA <tool number> <parameter> <value>
+SET_TOOL_DATA <tool number> <parameter> <value>
+
+GET_TG_DATA <tool number> <parameter> <value>
+SET_TG_DATA <tool number> <parameter> <value>
+
+
+Tool Parameters - Integer Values
+
+TYPE
+UNITS <1=inch, 0=metric>
+MATERIAL
+
+OFFSET
+SPINDLE_DIR
+ID
+USE_ID
+TOOL_GROUP_POS
+TOOL_GROUP
+PRIME_SPINDLE
+
+MTOOL_TYPE
+MTOOL_NUM_FLUTES
+MTOOL_LEN_OFFSET
+MTOOL_OPTIONS
+MTOOL_ORIENTATION
+
+LTOOL_TYPE
+LTOOL_ISIZE
+LTOOL_ORIENTATION
+LTOOL_THREAD_STYLE
+LTOOL_THREAD_TYPE
+LTOOL_THREAD_ID_OD
+LTOOL_THREAD_DIR
+LTOOL_OFFSET
+LTOOL_CUT_SIDE
+LTOOL_FACE_UP
+LTOOL_NEG_SIDE
+LTOOL_OTHER
+
+MTOOL_HOLDER
+LTOOL_HOLDER
+HOLDER_SOLID_REF
+HOLDER_SHAPE_REF
+
+MTOOL_HOLDER_TYPE
+FORM_SHAPE_REF
+
+
+Tool Parameters - Floating Point Values
+
+MTOOL_LENGTH
+MTOOL_FLUTE_LENGTH
+MTOOL_RADIUS
+MTOOL_SHANK_RAD
+MTOOL_TOP_CORNER_RAD
+MTOOL_CORNER_RAD
+MTOOL_DRAFT_ANGLE
+MTOOL_NON_CUT_DIA
+MTOOL_TIP_ANGLE
+MTOOL_PITCH_TPI
+MTOOL_PRESET_X
+MTOOL_PRESET_Y
+MTOOL_PRESET_Z
+MTOOL_TC_SHIFT_X
+MTOOL_TC_SHIFT_Y
+MTOOL_TC_SHIFT_Z
+MTOOL_LEAD_TIP
+MTOOL_TIP_RAD
+MTOOL_INNER_TOP_CORNER_RAD
+MTOOL_BOTTOM_RAD
+MTOOL_TOP_RAD
+MTOOL_OUT_OF_HOLDER_LEN
+
+LTOOL_SIZE
+LTOOL_THICK
+LTOOL_WIDTH
+LTOOL_LENGTH
+LTOOL_TIP_RAD
+LTOOL_INSERT_ANGLE
+LTOOL_TIP_OFFSET
+
+LTOOL_PRESET_PT_X
+LTOOL_PRESET_PT_Z
+
+LTOOL_TURRET_SHIFT_X
+LTOOL_TURRET_SHIFT_Z
+
+LTOOL_FACE_ANGLE
+LTOOL_SIDE_ANGLE
+LTOOL_TIP_WIDTH
+LTOOL_TIP_LENGTH
+LTOOL_THREAD_PITCH
+LTOOL_THREAD_FLAT_LEN
+LTOOL_THREAD_INSERT_WIDTH
+LTOOL_THREAD_EDGE_POS_X
+LTOOL_THREAD_EDGE_POS_Z
+LTOOL_MID_ANGLE
+LTOOL_TIP_CENTER_TO_PRESET_X
+LTOOL_TIP_CENTER_TO_PRESET_Z
+LTOOL_FACE_RELIEF
+LTOOL_DIA_RELIEF
+LTOOL_HOLDER_THICKNESS
+LTOOL_B_AXIS
+LTOOL_UTIL_LEN
+LTOOL_UTIL_DIA
+LTOOL_UTIL_ANGLE
+
+TOOL_PRESET_X
+TOOL_PRESET_Y
+TOOL_PRESET_Z
+
+TOOL_TC_SHIFT_X
+TOOL_TC_SHIFT_Y
+TOOL_TC_SHIFT_Z
+
+
+Tool Parameters - String Values
+
+COMMENT
+
+Tool Group Parameters - Floating Point Values
+
+TOOL_CHANGE_X
+TOOL_CHANGE_Y
+TOOL_CHANGE_Z
+LOAD_TOOLFILE <tool list filename>
+SAVE_TOOLFILE <tool list filename>
+
+
+CREATE_PROC <process_type> <process number> <tool number>
+DELETE_PROC <process number>
+INSERT_PROC_TILE <before process number>
+COPY_PROC <from process number> <to process number>
+GET_PROC_LIST_SHOWN <visible>
+SHOW_PROC_LIST (no arguments)
+HIDE_PROC_LIST (no arguments)
+REDRAW_PROC_LIST (no arguments)
+SCROLL_PROC_LIST <first tile>
+CALC_FEED_SPEED <<process number> <RPM> <entry feed> <contour feed>
+
+GET_PROC_STATUS <process number> <status>
+GET_PROC_SELECTED <process number> <selected>
+
+SELECT_PROC <op number>
+SELECT_ALL_PROCS
+DESELECT_PROC <op number>
+DESELECT_ALL_PROCS
+
+CLEAR_PROC_LIST
+LOAD_PROCESS <process filename> [<clear process list> <exact match>]
+<exact match> option added in GibbsCAM version 11.2.6.23
+SAVE_PROCESS <process filename>
+CALC_PROCESS [<async>]
+
+GET_PROC_DATA <process number> <parameter> <value>
+SET_PROC_DATA <process number> <parameter> <value>
+
+GET_UTIL_PROC_DATA <process number> <parameter> <value>
+SET_UTIL_PROC_DATA <process number> <parameter> <value>
+
+GET_UTIL_PROC_NUM_FIELDS <process number> <number of fields>
+GET_UTIL_PROC_FIELD_NAME <process number> <field number> <field name>
+GET_BASIC_UTIL_PROC_NAME <process number> <variable
+SET_BASIC_UTIL_PROC_NAME <process number> <value>
+
+Note: Utility process names are case dependant
+GET_BASIC_UTIL_PROC_DATA <process number> <parameter type> <parameter name> <variable>
+SET_BASIC_UTIL_PROC_DATA <process number> <parameter type> <parameter name> <value>
+GET_CUSTOM_PROC_NAME <process number> <variable>
+SET_CUSTOM_PROC_NAME <process number> <value>
+
+Note: Custom process names are case dependant.
+
+
+Process Types - Creating Processes
+
+MILL_DRILL
+MILL_CONTOUR
+MILL_ROUGH
+MILL_SURFACE
+MILL_THREAD_MILL
+
+TURN_DRILL
+TURN_CONTOUR
+TURN_ROUGH
+TURN_THREAD
+
+LATHE_DRILL
+LATHE_CONTOUR
+LATHE_ROUGH
+LATHE_THREAD
+
+
+Process Parameters - Integer Values
+
+TYPE
+MILL_TYPE
+LATHE_TYPE
+TOOL_NUM
+CRC
+COOLANT
+
+NUM_SPRING_PASSES
+CUT_TYPE
+REPEATS
+
+MTHREAD_TRAVERSE_CP1
+MTHREAD_ID_OD
+MTHREAD_THREAD_DIR
+MTHREAD_RAPID_IN
+
+SURFACE_TYPE
+SURFACE_CUT_TYPE
+SURFACE_BACK_AND_FORTH
+SURFACE_LACE_CUT_DIR
+SURFACE_OUTPUT_PREF
+
+SURFACE_CUT_OPT
+SURFACE_OFFSET_SURFACES
+SURFACE_ONE_PASS
+SURFACE_CONSTRAIN
+SURFACE_RETRACT_OPTION
+SURFACE_STAY_IN_STOCK
+SURFACE_CLEAR_STOCK
+SURFACE_CLEAR_STOCK_TYPE
+SURFACE_CUT_OVER_EDGES
+SURFACE_SKIP_FLATS
+
+CURVE_CUT_DIR
+
+SURFACE_FLOW_MACH_DIR
+SURFACE_FLOW_MACH_Z_ORDER
+SURFACE_FLOW_TRAVEL_AROUND_MODE
+SURFACE_FLOW_CUT_TYPE
+
+SURFACE_INTERSECT_TYPE
+SURFACE_CUTS_TYPE
+SURFACE_PASSES_TYPE
+SURFACE_CLEANUP_TYPE
+SURFACE_PASSES_PER_SIDE
+
+LATHE_PREFER_CANNED
+LATHE_CLEAR_ID
+
+LROUGH_ROUND_CORNERS
+LROUGH_CUT_OFF
+LROUGH_CUT_DIR
+LROUGH_ENTRY_PERP
+LROUGH_EXIT_PERP
+LROUGH_ROUGH_TYPE
+LROUGH_CSS
+LROUGH_RAPID_STEP
+LROUGH_MONOTONIC
+LROUGH_AVOID_AIR
+LROUGH_XPLUS
+LROUGH_XMINUS
+LROUGH_ZPLUS
+LROUGH_ZMINUS
+LROUGH_AUTO_FINISH
+LROUGH_SPINDLE_DIR
+
+LROUGH_FINISH_LAST
+
+LROUGH_CENTER_OUT
+LROUGH_CONSTANT_STEP
+LROUGH_PECK
+LROUGH_PLUNGE_TYPE
+
+LROUGH_CONSTANT_PATH
+LROUGH_FIXED_SP
+
+LROUGH_NUM_PASSES
+LROUGH_SHIFT_SQUARE_CORNERS
+
+LROUGH_CLEANUP_PASS
+LROUGH_USE_DEFLECT_COMP
+LROUGH_DEFLECT_COMP_VAL
+LROUGH_MULTI_PASS
+
+LATHE_CUT_OTHER_SIDE
+LATHE_USE_AUTO_CLEAR
+
+LTHREAD_STYLE
+LTHREAD_CUT_DIR
+LTHREAD_CUT_TYPE
+LTHREAD_CSS
+LTHREAD_BALANCED_IN_FEED
+LTHREAD_ALTERNATE
+LTHREAD_LAST_CUT
+LTHREAD_NOMINAL_PITCH_INDEX
+LTHREAD_TAPER_INDEX
+LTHREAD_NUM_SPRING_PASSES
+LTHREAD_NUM_STARTS
+
+LDRILL_ENTRY
+
+FEED_CONNECT
+CRC_OFFSET
+LEN_OFFSET
+CUSTOM_CBSET
+
+PATTERN_ON
+PATTERN_INDEX
+ROUND_CORNERS
+ENTRY_PERP
+EXIT_PERP
+IGNORE_TOOLS
+DEPTH_FIRST
+FM_USE_SHAPE
+FM_HPLUS
+FM_VPLUS
+FM_MOVEH
+FM_BEFORE_ZIGZAG
+FM_BACK_AND_FORTH
+FM_TYPE
+ENTRY_TYPE
+
+START_ON_RIGHT
+RETRACTS
+HIT_PARALLEL
+STAY_CLEAR
+CUT_BACK
+SAME_STROKE
+FULL_DIA
+STEPOVER_FEED_LOCK
+CLEAR_FEED_LOCK
+SCALLOP_FEED_LOCK
+CLEAR_PERIPH
+
+CS_NUM
+PATH_CS
+
+POCKET_TYPE
+WALL_MODE
+PREFER_SUBS
+HIT_FLATS
+
+POCKET_ENTRY_RAMP_TYPE
+POCKET_ENTRY_HELIX_TYPE
+
+POCKET_AS_BOSS
+
+SURFACE_ENTRY_TYPE
+SURFACE_ENTRY_RAMP_TYPE
+
+PROG_STOP
+RAPID_IN
+MATERIAL_ONLY
+DRILL_TYPE
+DRILL_POS_APPROACH
+DRILL_CLEAR_PLANE
+
+WALL_STEP
+WALL_TOP_TO_BOTTOM
+WALL_SAME_DIR
+WALL_SAME_DCEP_SIDE
+WALL_SWEPT_POCKET
+WALL_SWEPT_ISLAND
+
+S_USE_ADV_TOL
+M_USE_ADV_TOL
+CUT_SIDE
+MD_FROM_TOOL
+MD_VARY_WITH_GEO
+MD_VARY_WITH_FEAT
+MD_RETRACT_LEVEL
+MD_PROCESS_LOAD_H1Z_FEAT
+
+CONTOUR_ENTRY_RAMP_TYPE
+CONTOUR_ENTRY_HELIX_TYPE
+
+CONTOUR_RAMP_DOWN
+CONTOUR_NUM_EXTRA_OFFSETS
+
+WRAP
+WRAP_NUM_COPIES
+
+DRILL_BORE_CUT_TYPE
+
+
+Process Parameters - Floating Point Values
+
+ENTRY_CLEAR
+EXIT_CLEAR
+ENTRY_LINE
+EXIT_LINE
+ENTRY_RAD
+EXIT_RAD
+ENTRY_FEED
+CONTOUR_FEED
+SURF_Z
+SURFACE_Z
+TIP_Z
+Z_STEP_WANTED
+CUT_WIDTH
+STOCK
+BOSS_STOCK
+OVERHANG
+OVERLAP
+OPEN_CLEARANCE
+
+MTHREAD_START_THREAD
+MTHREAD_END_THREAD
+MTHREAD_CUT_DIA
+MTHREAD_CLEAR_DIA
+MTHREAD_PITCH
+MTHREAD_FEED
+
+SURFACE_EFEED
+SURFACE_CFEED
+SURFACE_STOCK
+SURFACE_FIXTURE_CLEAR
+SURFACE_STEPOVER
+SURFACE_RIDGE_HEIGHT
+SURFACE_CUT_ANGLE
+SURFACE_DESIRED_Z
+SURFACE_CONST_FACES_CLEAR
+SURFACE_CUT_TOL
+SURFACE_STOCK_TOL
+SURFACE_FIXTURE_TOL
+SURFACE_CONSTRAINT_TOL
+SURFACE_SMOOTH_TOL
+SURFACE_ARC_FIT_TOL
+SURFACE_SPLINE_APPROX_TOL
+
+SURFACE_NORMAL_ANGLE
+SURFACE_STEP_CUT_RATIO
+
+SURFACE_CORNER_RAD
+SURFACE_MAX_CUT_ANGLE
+
+LROUGH_START_SIDE_EXT
+LROUGH_MIN_RAD
+LROUGH_STOCK
+LROUGH_STOCK_X
+LROUGH_STOCK_Z
+LROUGH_ENTRY_LINE
+LROUGH_ENTRY_RAD
+LROUGH_EXIT_RAD
+LROUGH_EXIT_LINE
+LROUGH_ROUGH_START
+LROUGH_MAX_RPM
+LROUGH_SFPM
+LROUGH_FEED
+LROUGH_CLEARANCE
+LROUGH_ENTRY_FEED
+LROUGH_CONTOUR_FEED
+LROUGH_AUTO_FINISH_FEED
+
+LROUGH_TURN_CUT_WIDTH
+LROUGH_RAMP_ANGLE
+LROUGH_PLUNGE_TYPE
+LROUGH_PLUNGE_FIRST
+LROUGH_DIR_FWD
+LROUGH_BACK_AND_FORTH
+
+LROUGH_PLUNGE_ANGLE
+LROUGH_CUT_WIDTH
+LROUGH_FEED_PERCENT
+LROUGH_PECK
+LROUGH_RETRACT
+
+LROUGH_CUT_X
+LROUGH_CUT_Z
+LROUGH_SHIFT_CUT_WIDTH
+LROUGH_CYCLE_SP_X
+LROUGH_CYCLE_SP_Z
+LROUGH_OFFSET_CUT_DEPTH
+
+LTHREAD_RPM
+LTHREAD_Z_START
+LTHREAD_Z_END
+LTHREAD_NOMINAL
+LTHREAD_PITCH
+LTHREAD_MAJOR_DIA
+LTHREAD_MINOR_DIA
+LTHREAD_THREAD_HEIGHT
+LTHREAD_TAPER
+LTHREAD_THREAD_ANGLE
+LTHREAD_CUT_DEPTH
+LTHREAD_LAST_CUT
+LTHREAD_Z_START_EXTEND
+LTHREAD_Z_END_EXTEND
+LTHREAD_X_START_EXTEND
+LTHREAD_X_END_EXTEND
+
+LDRILL_DWELL
+LDRILL_PECK
+LDRILL_CLEARANCE
+LDRILL_RETRACT
+LDRILL_TAP_PERCENT
+LDRILL_FEED
+LDRILL_TIP_Z
+LDRILL_SURFACE_Z
+
+TOOL_CHANGE
+CP1
+CURVE_TOL
+AUTO_ENTRY_CP
+AUTO_ENTRY_CLEAR_RAD
+AUTO_EXIT_CP
+AUTO_EXIT_CLEAR_RAD
+
+AXIS_INFO
+GEO_RAD
+MIN_RAD
+Z_STEP
+FM_CLEAR
+FM_CUT_WIDTH
+CUT_ANGLE
+
+STEPOVER_FEED
+CLEAR_FEED
+SCALLOP_FEED
+MIN_CUT
+
+RPM
+RPMS
+DRILL_FEED
+PAST_STOCK
+
+POCKET_ENTRY_PLUNGE_PT_X
+POCKET_ENTRY_PLUNGE_PT_Y
+POCKET_ENTRY_RAMP_SLOPE
+POCKET_ENTRY_RAMP_START_Z
+POCKET_ENTRY_RAMP_MAX_CUT
+POCKET_ENTRY_RAMP_WALL_CLEAR
+POCKET_ENTRY_RAMP_ANGLE
+POCKET_ENTRY_HELIX_SLOPE
+POCKET_ENTRY_HELIX_ANGLE
+POCKET_ENTRY_HELIX_START_Z
+POCKET_ENTRY_HELIX_MAX_CUT
+POCKET_ENTRY_HELIX_WALL_CLEAR
+POCKET_ENTRY_HELIX_DIA
+POCKET_ENTRY_HELIX_CP_X
+POCKET_ENTRY_HELIX_CP_Y
+POCKET_ENTRY_PERIPH_START_Z
+POCKET_ENTRY_PERIPH_SLOPE
+
+POCKET_OUTER_AS_BOSS
+
+SURFACE_ENTRY_PLUNGE_PT_X
+SURFACE_ENTRY_PLUNGE_PT_Y
+
+RAPID_CLEARANCE
+
+SURFACE_STOCK
+DRILL_DWELL
+DRILL_PECK_PERCENT
+DRILL_PECK_VALUE
+DRILL_PECK_CLEARANCE
+DRILL_TAP_PERCENT
+DRILL_BORE_PULLOFF
+DRILL_PECK_RETRACT
+
+WALL_TOP
+WALL_ANGLE
+WALL_BOTTOM
+WALLI_TOP
+WALLI_ANGLE
+WALLI_BOTTOM
+WALL_USER_STEP
+WALL_SHAPE_STEP
+WALL_RIDGE_HEIGHT
+
+MSURF_CLEAR
+MSURFACE_CLEAR
+MSTOCK_TOL
+MFIX_TOL
+MFIXTURE_TOL
+MZSHIFT
+
+CONTOUR_ENTRY_RAMP_SLOPE
+CONTOUR_ENTRY_RAMP_START_Z
+CONTOUR_ENTRY_RAMP_MAX_CUT
+CONTOUR_ENTRY_RAMP_ANGLE
+CONTOUR_ENTRY_HELIX_SLOPE
+CONTOUR_ENTRY_HELIX_START_Z
+CONTOUR_ENTRY_HELIX_MAX_CUT
+CONTOUR_ENTRY_HELIX_DIA
+
+CONTOUR_EXTRA_OFFSETS_VAL
+
+WRAP_START_ANGLE
+WRAP_COPY_ANGLE
+ADV_LINE_ENTRY_CRC
+ADV_LINE_EXIT_CRC
+ADV_ARC_ENTRY_CRC
+ADV_ARC_ENTRY_RAD
+ADV_ARC_EXIT_CRC
+ADV_ARC_EXIT_RAD
+
+DRILL_BORE_CUT_DIA
+DRILL_BORE_CLEAR_DIA
+DRILL_BORE_CLEAR_AMOUNT
+DRILL_BORE_ENTRY_EXIT_RAD
+DRILL_BORE_ENTRY_EXIT_LINE
+DRILL_BORE_CUT_WIDTH
+DRILL_BORE_STOCK
+DRILL_BORE_OVERLAP
+DRILL_BORE_APPROACH_ANGLE
+DRILL_BORE_DESIRED_STEP
+
+
+Process Parameters - String Values
+
+COMMENT
+
+
+Process Parameters - Thread Whirling Custom Data Values
+
+THREAD_WHIRL_NUM_FLUTES
+THREAD_WHIRL_FEED_PER_FLUTE
+THREAD_WHIRL_FEED
+THREAD_WHIRL_PITCH
+THREAD_WHIRL_RPM
+THREAD_WHIRL_CP2
+THREAD_WHIRL_CP3
+THREAD_WHIRL_IN_X
+THREAD_WHIRL_IN_Z
+THREAD_WHIRL_OUT_X
+THREAD_WHIRL_OUT_Z
+THREAD_WHIRL_START_X
+THREAD_WHIRL_START_Z
+THREAD_WHIRL_END_X
+THREAD_WHIRL_END_Z
+THREAD_WHIRL_APP_X
+THREAD_WHIRL_APP_Z
+THREAD_WHIRL_RET_X
+THREAD_WHIRL_RET_Z
+THREAD_WHIRL_COOLANT
+THREAD_WHIRL_CONST_FEED_ON
+THREAD_WHIRL_CONST_FEED_VAL
+THREAD_WHIRL_C_OFFSET
+THREAD_WHIRL_START_C_OFFSET
+THREAD_WHIRL_END_C_OFFSET
+
+
+Utility Process Parameters - Integer Values
+
+FLOW_NUM
+SPINDLE_NUM
+MACHINE_MODE
+
+FROM_WORKPIECE
+TO_WORKPIECE
+
+SPINDLE_ON
+FORWARD
+
+X_HOME
+Z_HOME
+
+PART_IN_MAIN
+PART_IN_SUB
+
+C_SYNCHED
+SUB_IN_UNLOAD
+TORQUE_SENSING
+
+LOCATION
+ORIENTATION
+FULL_RETURN
+AUTO_REMOVE
+
+SPINDLE_UNLOADED
+
+CS
+CONTROL_POINT
+
+
+Utility Process Parameters - Floating Point Values
+
+TIME
+SPINDLE_SPEED
+
+X_POSITION
+Z_POSITION
+X_CLEARANCE
+Z_CLEARANCE
+
+X_VALUE
+Z_VALUE
+
+X_DROP
+Z_DROP
+
+FEEDRATE
+FEED_DISTANCE
+
+INITIAL_FACE_Z
+GRIP_Z
+SHIFT_DISTANCE
+TORQUE_VAL
+PULLBACK
+
+WITH_PART
+OPEN_MAIN_COLLET
+MAIN_LOADED
+DELETE_OP <op number>
+MOVE_OP_TILE <from tile> <to tile> [<insert tile>]
+INSERT_OP_TILE <before op number> <move all subsequent tiles down>
+GET_OP_LIST_SHOWN <visible>
+SHOW_OP_LIST (no arguments)
+HIDE_OP_LIST (no arguments)
+REDRAW_OP_LIST (no arguments)
+SCROLL_OP_LIST <first tile>
+
+
+GET_OP_STATUS <op number> <status>
+GET_OP_SELECTED <op number> <selected>
+
+SELECT_OP <op number>
+SELECT_ALL_OPS
+DESELECT_OP <op number>
+DESELECT_ALL_OPS
+
+GET_OP_DATA <op number> <parameter> <value>
+SET_OP_DATA <op number> <parameter> <value>
+
+
+Operation Parameters - Integer Values
+
+TYPE
+MILL_TYPE
+LATHE_TYPE
+TOOL_NUM
+PROC_GROUP
+PROC_ID
+PROC_OP
+WG_NUM
+CS_NUM
+PATH_CS
+LOCKS
+NUM_REPEATS
+CRC_DIR
+CRC_OFFSET
+LEN_OFFSET
+COOLANT
+CUT_TYPE
+USE_CSS
+CRC_SIDE
+
+DRILL_TYPE
+DRILL_CLEAR_PLANE
+DRILL_POS_APPROACH
+MATERIAL_ONLY
+RAPID_IN
+
+LTHREAD_BALANCED
+LTHREAD_ANGLE_ALT
+LTHREAD_STARTS
+LTHREAD_LAST_CUT
+LATHE_PREFER_CANNED
+LATHE_CANNED_AUTOFIN
+LTHREAD_TYPE
+LATHE_CUT_DIR
+NUM_SPRING_PASSES
+LATHE_ROUGH_TYPE
+LATHE_PULL_OFF_WALL
+LATHE_PLUNGE_CUT_TYPE
+LATHE_PLUNGE_CENTER_OUT
+LATHE_PLUNGE_TYPE
+LATHE_PLUNGE_ENTRY_TYPE
+LATHE_PAT_SHIFT_FIXED_SRT
+LATHE_PAT_SHIFT_PASSES
+LATHE_SQUARE_CORNERS
+LATHE_NO_DRAG
+LATHE_CUT_OFF
+LATHE_OD_ID_FACE
+
+WRAP
+WRAP_DUPS
+
+PROG_STOP
+POCKET_TYPE
+
+TOOL_GROUP
+WORKPIECE
+FLOW
+SPIN_CONTROL
+LATHE_CUT_OTHER_SIDE
+
+POCKET_ENTRY_RAMP
+POCKET_ENTRY_HELIX_TYPE
+
+POCKET_AS_BOSS
+
+SURFACE_ENTRY_TYPE
+SURFACE_ENTRY_RAMP_TYPE
+
+MACH_ENGINE
+
+FEED_CONNECT
+CRC_OFFSET
+PATTERN_ON
+PATTERN_INDEX
+ROUND_CORNERS
+ENTRY_PERP
+EXIT_PERP
+IGNORE_TOOLS
+DEPTH_FIRST
+
+FM_USE_SHAPE
+FM_HPLUS
+FM_VPLUS
+FM_MOVEH
+ZIG_ZAG
+BACK_FORTH
+FM_TYPE
+ENTRY_TYPE
+START_ON_RIGHT
+RETRACTS
+HIT_PARALLEL
+STAY_CLEAR
+CUT_BACK
+SAME_STROKE
+FULL_DIA
+STEPOVER_FEED_LOCK
+CLEAR_FEED_LOCK
+SCALLOP_FEED_LOCK
+CLEAR_PERIPH
+HIT_FLATS
+
+MTHREAD_TRAVERSE_CP1
+MTHREAD_ID_OD
+MTHREAD_THREAD_DIR
+
+SURFACE_TYPE
+SURFACE_CUT_TYPE
+SURFACE_BACK_FORTH
+SURFACE_LACE_CUT_DIR
+SURFACE_OUTPUT_PREF
+
+SURFACE_CUT_OPT
+SURFACE_OFFSET_SURFS
+SURFACE_ONE_PASS
+SURFACE_CONSTRAIN
+SURFACE_RETRACT_OPT
+SURFACE_STAY_IN_STOCK
+SURFACE_CLEAR_STOCK
+SURFACE_CLEAR_STOCK_TYPE
+SURFACE_CUT_OVER_EDGES
+SURFACE_SKIP_FLATS
+
+SURFACE_CURVE_CUT_DIR
+
+SFLOW_MACH_DIR
+SFLOW_MACH_ZORDER
+SFLOW_TRAVEL_AROUND_MODE
+SFLOCUT_TYPE
+
+INTERSECT_TYPE
+INTERSECT_CUTS_TYPE
+INTERSECT_PASS_TYPE
+INTERSECT_CLEANUP_FROM
+INTERSECT_PASSES_PER_SIDE
+
+LROUGH_ROUND_CORNERS
+LROUGH_EXIT_PERP
+LROUGH_XPLUS
+LROUGH_XMINUS
+LROUGH_ZPLUS
+LROUGH_ZMINUS
+LROUGH_AUTOFIN
+LROUGH_SPINDLE_DIR
+LROUGH_CONSTANT_PATH
+
+LTHREAD_STYPE
+LTHREAD_ALTERNATE
+LTHREAD_NOM_PITCH_INDEX
+
+WALL_STEP
+WALL_TOP_TO_BOTTOM
+WALL_SAME_DIR
+WALL_DCEP_SIDE
+WALL_SWEPT_POCKET
+WALL_SWEPT_ISLAND
+CUT_SIDE
+
+S_USE_ADV_TOL
+M_USE_ADV_TOL
+WALL_MODE
+
+INTER_OP_OVERRIDE
+
+UTIL_TYPE
+MD_FROM_TOOL
+MD_VARY_WITH_GEO
+MD_VARY_WITH_FEAT
+MD_RETRACT_LEVEL
+
+CONTOUR_ENTRY_RAMP_TYPE
+CONTOUR_ENTRY_HELIX_TYPE
+PREFER_SUBS
+
+CONTOUR_RAMP_DOWN
+CONTOUR_NUM_EXTRA_OFFSETS
+
+DRILL_BORE_CUT_TYPE
+
+ADV_EXIT_SAME_AS_ENTRY
+ADV_ENTRY_TYPE
+ADV_EXIT_TYPE
+
+ADV_LINE_ENTRY_USE_CRC
+ADV_LINE_ENTRY_USE_OFF_PART_LINE
+ADV_LINE_ENTRY_USE_RAMP
+ADV_LINE_ENTRY_RAMP_INCLUDE_LINE
+
+ADV_LINE_EXIT_USE_CRC
+ADV_LINE_EXIT_USE_OFF_PART_LINE
+ADV_LINE_EXIT_USE_RAMP
+ADV_LINE_EXIT_RAMP_INCLUDE_LINE
+
+ADV_ARC_ENTRY_USE_CRC
+ADV_ARC_ENTRY_USE_OFF_PART_LINE
+ADV_ARC_ENTRY_USE_RAMP
+ADV_ARC_ENTRY_RAMP_INCLUDE_RADIUS
+
+ADV_ARC_EXIT_USE_CRC
+ADV_ARC_EXIT_USE_OFF_PART_LINE
+ADV_ARC_EXIT_USE_RAMP
+ADV_ARC_EXIT_RAMP_INCLUDE_RADIUS
+
+DRILL_REVERSE_ORDER
+
+BAXIS_USED
+BAXIS_METHOD
+BAXIS_MULTI_TRANS
+BAXIS_USE_MIN_ANGLE
+BAXIS_USE_MAX_ANGLE
+BAXIS_SMOOTH_CORNERS
+BAXIS_VECTOR_TYPE
+BAXIS_CHECK_COLLISIONS
+
+For each operation lock, set the value to 1 for locked, 0 for unlocked
+
+LOCK_ENTRY_CLEAR
+LOCK_EXIT_CLEAR
+LOCK_ENTRY_FEED
+LOCK_CONTOUR_FEED
+
+LOCK_RPM
+LOCK_CSS
+LOCK_MAX_RPM
+
+LOCK_WRAP_START_ANGLE
+LOCK_WRAP
+LOCK_WRAP_DUPS
+LOCK_WRAP_DUP_ANGLE
+
+LOCK_COOLANT
+LOCK_DWELL
+LOCK_PROG_STOP
+LOCK_PATTERN_ON
+
+LOCK_LEN_OFFSET
+LOCK_CRC
+LOCK_CRC_OFFSET
+
+LOCK_PREFER_CANNED
+LOCK_AUTOFIN
+LOCK_POS_APPROACH
+LOCK_TAP_PERCENT
+
+LOCK_UTIL_MARKERS
+
+LOCK_COMMENT
+
+
+Operation Parameters - Floating Point Values
+
+ENTRY_CLEAR
+EXIT_CLEAR
+ENTRY_FEED
+CONTOUR_FEED
+CUT_WIDTH
+DRILL_CLEAR_PLANE
+STOCK
+BOSS_STOCK
+
+RPM
+RPMS
+TIME
+LENGTH
+CSS
+SURFACE_STOCK
+SURF_STOCK
+LATHE_XZ_STOCK
+LATHE_CUT_WIDTH
+CUT_TOL
+STEP
+DEPTH
+OD_ID_FACE
+
+LATHE_DEPTH
+DRILL_DWELL
+DRILL_TAP_PERCENT
+DRILL_PECK_CLEARANCE
+DRILL_PECK_AMOUNT
+DRILL_PECK_RETRACT
+DRILL_BORE_PULLOFF
+DRILL_CB_START_RIZ
+DRILL_CB_END_RIZ
+SURFACE_DEPTH
+
+MATERIAL_ONLY_CLEARANCE
+LTHREAD_ANGLE
+LTHREAD_NOMINAL_XD
+LTHREAD_TPI
+LTHREAD_PITCH
+LTHREAD_SLOPE
+LTHREAD_MINOR_XD
+LTHREAD_HEIGHT_XR
+LTHREAD_RUN_IN_X
+LTHREAD_RUN_IN_Z
+LTHREAD_RUN_OUT_X
+LTHREAD_RUN_OUT_Z
+LTHREAD_FIRST_CUT
+LTHREAD_LAST_CUT
+LPLUNGE_MAX_CUT
+LPLUNGE_ANGLE
+LPLUNGE_PECK_AMOUNT
+LPLUNGE_PECK_CLEARANCE
+LPLUNGE_PECK_RETRACT
+LPLUNGE_FEED_PERCENT
+LPLUNGE_ENTRY_TYPE
+LATHE_PATTERN_SHIFT_CUT_X
+LATHE_PATTERN_SHIFT_CUT_Z
+LATHE_PATTERN_SHIFT_PT_X
+LATHE_PATTERN_SHIFT_PT_Z
+WRAP_START_ANGLE
+WRAP_DUP_ANGLE
+LATHE_MAX_RPM
+
+POCKET_ENTRY_PLUNGE_PT_X
+POCKET_ENTRY_PLUNGE_PT_Y
+POCKET_ENTRY_RAMP_SLOPE
+POCKET_ENTRY_RAMP_START_Z
+POCKET_ENTRY_RAMP_MAX_CUT
+POCKET_ENTRY_RAMP_WALL_CLEAR
+POCKET_ENTRY_RAMP_ANGLE
+POCKET_ENTRY_HELIX_SLOPE
+POCKET_ENTRY_HELIX_ANGLE
+POCKET_ENTRY_HELIX_START_Z
+POCKET_ENTRY_HELIX_MAX_CUT
+POCKET_ENTRY_HELIX_WALL_CLEAR
+POCKET_ENTRY_HELIX_DIA
+POCKET_ENTRY_HELIX_CP_X
+POCKET_ENTRY_HELIX_CP_Y
+POCKET_ENTRY_PERIPH_START_Z
+POCKET_ENTRY_PERIPH_SLOPE
+
+SURFACE_ENTRY_PLUNGE_PT_X
+SURFACE_ENTRY_PLUNGE_PT_Y
+
+RAPID_CLEARANCE
+
+ENTRY_LINE_LEN
+EXIT_LINE_LEN
+ENTRY_RAD
+EXIT_RAD
+
+Z_STEP_WANTED
+OVERHANG
+OVERLAP
+OPEN_CLEARANCE
+
+MTHREAD_START_THREAD
+MTHREAD_END_THREAD
+MTHREAD_CUT_DIA
+MTHREAD_CLEAR_DIA
+MTHREAD_PITCH
+MTHREAD_FEED
+
+SURFACE_STEP_OVER
+SURFACE_RIDGE_HEIGHT
+SURFACE_CUT_ANGLE
+SURFACE_DESIRED_Z
+SURFACE_CONSTRAINT_FACES_CLEAR
+SURFACE_STOCK_TOL
+SURFACE_FIX_TOL
+SURFACE_FIXTURE_TOL
+SURFACE_CONSTRAINT_TOL
+SURFACE_SMOOTH_TOL
+SURFACE_ARC_FIT_TOL
+SURFACE_SPLINE_TOL
+SURFACE_NORMAL_ANGLE
+SURFACE_STEP_CUT_RATIO
+SURFACE_CORNER_RAD
+SURFACE_MAX_CUT_ANGLE
+
+CP1
+CURVE_TOLERANCE
+AUTO_ENTRY_CP
+AUTO_ENTRY_CLEAR_RAD
+AUTO_EXIT_CP
+AUTO_EXIT_CLEAR_RAD
+GEO_RAD
+MIN_RAD
+Z_STEP
+FM_CLEAR
+FM_CUT_WIDTH
+CUT_ANGLE
+STEPOVER_FEED
+CLEAR_FEED
+SCALLOP_FEED
+MIN_CUT
+PAST_STOCK
+
+LTHREAD_Z_START
+LTHREAD_Z_END
+LTHREAD_MAJOR_DIA
+LATHE_SURFACE_Z
+
+LROUGH_MIN_RAD
+LROUGH_ENTRY_LINE
+LROUGH_ENTRY_RAD
+LROUGH_EXIT_RAD
+LROUGH_EXIT_LINE
+LROUGH_START
+LROUGH_CUT_WIDTH
+LROUGH_RAMP_ANGLE
+
+WALL_TOP
+WALL_ANG
+WALL_BOT
+WALL_ITOP
+WALL_IANG
+WALL_IBOT
+WALL_USER_STEP
+WALL_SHAPE_STEP
+WALL_RIDGE_HEIGHT
+
+DRILL_CLEAR_PLANE_LOC_CS
+
+MSURF_CLEAR
+MSURF_STOCK_TOL
+MFIXTURE_TOL
+
+M_ZSHIFT
+
+CONTOUR_ENTRY_RAMP_SLOPE
+CONTOUR_ENTRY_RAMP_START_Z
+CONTOUR_ENTRY_RAMP_MAX_CUT
+CONTOUR_ENTRY_RAMP_ANGLE
+CONTOUR_ENTRY_HELIX_SLOPE
+CONTOUR_ENTRY_HELIX_START_Z
+CONTOUR_ENTRY_HELIX_MAX_CUT
+CONTOUR_ENTRY_HELIX_DIA
+
+CONTOUR_EXTRA_OFFSETS_VAL
+
+ADV_LINE_ENTRY_OFF_PART_LINE
+ADV_LINE_ENTRY_OFF_PART_ANGLE
+ADV_LINE_ENTRY_OFF_PART_DIST
+ADV_LINE_ENTRY_RAMP_DIST
+
+ADV_LINE_EXIT_OFF_PART_LINE
+ADV_LINE_EXIT_OFF_PART_ANGLE
+ADV_LINE_EXIT_OFF_PART_DIST
+ADV_LINE_EXIT_RAMP_DIST
+
+ADV_ARC_ENTRY_OFF_PART_LINE
+ADV_ARC_ENTRY_OFF_PART_DIST
+ADV_ARC_ENTRY_RAMP_DIST
+
+ADV_ARC_EXIT_OFF_PART_LINE
+ADV_ARC_EXIT_OFF_PART_DIST
+ADV_ARC_EXIT_RAMP_DIST
+
+LROUGH_END_LIMIT_VAL
+
+BAXIS_MIN_ANGLE_VAL
+BAXIS_MAX_ANGLE_VAL
+BAXIS_LEAD_LAG_ANGLE
+BAXIS_COLLISION_CLEARANCE
+
+
+Operation Parameters - String Values
+
+COMMENT
+OP_START
+OP_END
+
+
+Operation Parameters - Thread Whirling Custom Data Values
+
+THREAD_WHIRL_NUM_FLUTES
+THREAD_WHIRL_FEED_PER_FLUTE
+THREAD_WHIRL_FEED
+THREAD_WHIRL_PITCH
+THREAD_WHIRL_RPM
+THREAD_WHIRL_CP2
+THREAD_WHIRL_CP3
+THREAD_WHIRL_IN_X
+THREAD_WHIRL_IN_Z
+THREAD_WHIRL_OUT_X
+THREAD_WHIRL_OUT_Z
+THREAD_WHIRL_START_X
+THREAD_WHIRL_START_Z
+THREAD_WHIRL_END_X
+THREAD_WHIRL_END_Z
+THREAD_WHIRL_APP_X
+THREAD_WHIRL_APP_Z
+THREAD_WHIRL_RET_X
+THREAD_WHIRL_RET_Z
+THREAD_WHIRL_COOLANT
+THREAD_WHIRL_CONST_FEED_ON
+THREAD_WHIRL_CONST_FEED_VAL
+THREAD_WHIRL_C_OFFSET
+THREAD_WHIRL_START_C_OFFSET
+THREAD_WHIRL_END_C_OFFSET
+GET_CUSTOM_OP_NAME <op number> <variable>
+SET_CUSTOM_OP_NAME <op number> <value>
+
+Note: Custom op names are case dependant.
+CREATE_OP_POST_DATA <num vars>
+ADD_OP_POST_DATA <variable name>
+SET_OP_POST_DATA <op number>
+
+LOAD_OP_PROCESS <op number> [Allow open process dialog]
+REDO_ALL_OPS
+SORT_OPS (no additional arguments)
+COPY_OP_COMMENT_TO_PROC [<from op>]
+
+SELECT_OP_PATH_TYPE <type>
+<type> = MAIN, CANNED, PATTERN, CUT
+
+GET_OP_PATH <op number>
+SET_OP_PATH <op number>
+CREATE_OP_PATH
+CLEAR_OP_PATH <no arguments>
+REVERSE_OP_PATH <no arguments
+TRANSLATE_OP_PATH <dx> <dy> <dz>
+ROTATE_OP_PATH <xc> <yc> <zc> <angle>
+ADD_OP_PATH_POINT <x> <y> <z>
+ADD_OP_PATH_RAPID <xe> <ye> <ze>
+ADD_OP_PATH_LINE <xe> <ye> <ze>
+ADD_OP_PATH_ARC <xe> <ye> <ze> <xc> <yc> <zx> <rad> <dir>
+ADD_OP_PATH_THREAD <xe> <ye> <ze>
+ADD_OP_PATH_CTOOL <type> <x> <y> <z>
+ADD_OP_PATH_SELGEO
+
+To modify an operations toolpath, first select the type of path
+then get the path (this will load a copy into memory), now you
+can add to this path, or replace it by first clearing it and then
+adding new features. Finally, use SET_OP_PATH to replace the path.
+Note: You must fully understand the contents of operation paths
+before making any changes. Including the use of CTool markers.
+
+For more complex path operations, you can create a list
+of paths which can be copied, edited and transformed
+
+Note: Once a path list has been created, you can use path number 0
+for the current operation path. for example, a list of 5 paths will
+actually contain 6, 0 for the operation path and 1 to 5 for user paths.
+
+DEFINE_PATH_LIST <number of paths>
+DELETE_PATH_LIST (no arguments)
+CLEAR_PATH <path number>
+COPY_PATH <source path number> <new path number>
+TRANSLATE_PATH <path number> <dx> <dy> <dz>
+ROTATE_PATH <path number> <xc> <yc> <zc> <angle>
+MIRROR_PATH <path number> <scale factor>
+REVERSE_PATH <path number>
+PATH_TO_GEOMETRY <path number> <ref>
+
+GET_PATH_NUM_FEAT <path number> <number of features>
+GET_PATH_FEAT_TYPE <path number> <feature number> <tyoe>
+GET_PATH_FEAT_LEN <path number> <feature number> <length>
+GET_PATH_FEAT_START <path number> <feature number> <xs> <ys> [<zs>]
+GET_PATH_FEAT_END <path number> <feature number> <xs> <ys> [<zs>]
+GET_PATH_FEAT_ARC_DATA <path number> <feature number> <rad> <dir> <xc> <yc> [<zc>]
+GET_PATH_FEAT_ANGLES <path number> <feature num> <start ang> <end ang> <inc ang>
+GET_PATH_FEAT_CTOOL <path number> <feature number> <type> <x> <y> <z>
+
+CREATE_PATH <path number> <xs> <ys> <zs>
+ADD_PATH_FEAT <path number> <x> <y> <z>
+ADD_PATH_POINT <path number> <x> <y> <z>
+ADD_PATH_RAPID <path number> <xe> <ye> <ze>
+ADD_PATH_LINE <path number> <xe> <ye> <ze>
+ADD_PATH_ARC <path number> <xe> <ye> <ze> <xc> <yc> <zx> <rad> <dir>
+ADD_PATH_THREAD <path number> <xe> <ye> <ze>
+ADD_PATH_CTOOL <path number> <type> <x> <y> <z>
+
+DRILL_BORE_CUT_DIA
+DRILL_BORE_CLEAR_DIA
+DRILL_BORE_CLEAR_AMOUNT
+DRILL_BORE_ENTRY_EXIT_RAD
+DRILL_BORE_ENTRY_EXIT_LINE
+DRILL_BORE_CUT_WIDTH
+DRILL_BORE_STOCK
+DRILL_BORE_OVERLAP
+DRILL_BORE_APPROACH_ANGLE
+DRILL_BORE_DESIRED_STEP
+GET_OP_WFO <op number> <wfo number>
+SET_OP_WFO <op number> <wfo number>
+
+
+GET_OP_NUM_MARKERS <op number> <num markers>
+GET_OP_MARKER_TYPE <op number> <marker num> <type> [<sub type>]
+GET_OP_FEED_MARKER   <op number> <marker num> <feature num> <param> <value> <type>
+GET_OP_SPEED_MARKER  <op number> <marker num> <feature num> <param> <value> <fwd/rev>
+GET_OP_OFFSET_MARKER <op number> <marker num> <feature num> <param> <value> <tool/explicit>
+GET_OP_TEXT_MARKER   <op number> <marker num> <feature num> <param> <string>
+GET_OP_CRC_MARKER    <op number> <marker num> <feature num> <param> <value> <type>
+GET_OP_DWELL_MARKER  <op number> <marker num> <feature num> <param> <value> <sec/rev>
+GET_OP_STOP_MARKER   <op number> <marker num> <feature num> <param> <value>
+ADD_OP_FEED_MARKER   <op number> <feature num> <param> <value> <type> <marker num>
+ADD_OP_SPEED_MARKER  <op number> <feature num> <param> <value> <fwd/rev> <marker num>
+ADD_OP_OFFSET_MARKER <op number> <feature num> <param> <value> <tool/explicit> <marker num>
+ADD_OP_TEXT_MARKER   <op number> <feature num> <param> <string> <marker num>
+ADD_OP_CRC_MARKER    <op number> <feature num> <param> <value> <type> <marker num>
+ADD_OP_DWELL_MARKER  <op number> <feature num> <param> <value> <sec/rev> <marker num>
+ADD_OP_STOP_MARKER   <op number> <feature num> <param> <value> <marker num>
+DELETE_OP_MARKER <op number> <marker num>
+DELETE_ALL_OP_MARKERS <op number>
+
+
+GET_OP_NUM_FEAT <op number> <num features>
+GET_OP_FEAT_TYPE <op number> <feature num> <type>
+GET_OP_FEAT_LEN <op number> <feature num> <len>
+GET_OP_FEAT_START <op number> <feature num> <xs> <ys> [<zs>]
+GET_OP_FEAT_END <op number> <feature num> <xe> <ye> [<ze>]
+GET_OP_FEAT_ARC_DATA <op number> <feature num> <rad> <dir> <xc> <yc> [<zc>]
+GET_OP_FEAT_ANGLES <op number> <feature num> <start ang> <end ang> <inc ang>
+
+
+LISTS
+
+A macro can access several internal lists. In each case, the method of use is the same. For example, to access the list of tools, first use the command GET_TOOL_LIST. You will then be able to use the FIRST_TOOL_NUMBER, LAST_TOOL_NUMBER and FIRST_FREE_TOOL_NUMBER variables. Once you have used the FISRT_TOOL_NUMBER variable you will then be able to repeatedly use the NEXT_TOOL_NUMBER variable to get the number of the second, third, fourth tool and so on.
+
+GET_TOOL_LIST [<selected>]
+NUMBER_OF_TOOLS
+FIRST_TOOL_NUMBER
+NEXT_TOOL_NUMBER
+LAST_TOOL_NUMBER
+FIRST_FREE_TOOL_NUMBER
+
+GET_PROC_LIST [<selected>]
+NUMBER_OF_PROCS
+FIRST_PROC_NUMBER
+NEXT_PROC_NUMBER
+LAST_PROC_NUMBER
+FIRST_FREE_PROC_NUMBER
+
+GET_OP_LIST [<selected>]
+NUMBER_OF_OPS
+FIRST_OP_NUMBER
+NEXT_OP_NUMBER
+LAST_OP_NUMBER
+FIRST_FREE_OP_NUMBER
+
+GET_WG_LIST
+NUMBER_OF_WGS
+FIRST_WG_NUMBER
+NEXT_WG_NUMBER
+LAST_WG_NUMBER
+FIRST_FREE_WG_NUMBER
+
+GET_CS_LIST
+NUMBER_OF_CSS
+FIRST_CS_NUMBER
+NEXT_CS_NUMBER
+LAST_CS_NUMBER
+FIRST_FREE_CS_NUMBER
+
+GET_SOLID_LIST [<selected>]
+GET_SELECTED_SOLID_LIST
+NUMBER_OF_SOLIDS
+FIRST_SOLID_REF
+NEXT_SOLID_REF
+
+GET_SOLID_FACE_LIST <solid num> [<selected>]
+GET_SOLID_SELECTED_FACE_LIST <solid num>
+NUMBER_OF_FACES
+FIRST_FACE_REF
+NEXT_FACE_REF
+
+GET_SOLID_EDGE_LIST <solid num> [<selected>]
+GET_SOLID_SELECTED_EDGE_LIST <solid num>
+NUMBER_OF_EDGES
+FIRST_EDGE_REF
+NEXT_EDGE_REF
+
+GET_OLD_OP_LIST (save a copy of the current op list)
+(now make some changes to the op list)
+GET_NEW_OP_LIST (compare the op list with the saved copy)
+
+NUMBER_OF_SAME_OPS
+NUMBER_OF_NEW_OPS
+NUMBER_OF_DELETED_OPS
+NUMBER_OF_MOVED_OPS
+
+FIRST_SAME_OP_NUMBER
+NEXT_SAME_OP_NUMBER
+LAST_SAME_OP_NUMBER
+
+FIRST_NEW_OP_NUMBER
+NEXT_NEW_OP_NUMBER
+LAST_NEW_OP_NUMBER
+
+FIRST_DELETED_OP_NUMBER
+NEXT_DELETED_OP_NUMBER
+LAST_DELETED_OP_NUMBER
+
+FIRST_MOVED_OP_FROM_NUMBER
+NEXT_MOVED_OP_FROM_NUMBER
+LAST_MOVED_OP_FROM_NUMBER
+
+FIRST_MOVED_OP_TO_NUMBER
+NEXT_MOVED_OP_TO_NUMBER
+LAST_MOVED_OP_TO_NUMBER
+
+Note: NEXT_MOVED_OP_FROM_NUMBER gets the next in the list
+and NEXT_MOVED_OP_TO_NUMBER gets the current in the list
+
+
+SYSTEM VARIABLES
+
+These variables are set by some of the macro commands
+
+PointRef = Number of point created
+LineRef = Number of line created
+CircleRef = Number of circle created
+ContourRef = Number of contour created
+SolidRef = Number of solid created
+
+ExcelError = Error code set by all Excel commands
+ExcelCellLength = Length of text read from a cell
+
+FileError = Error code set by all file commands
+ReadVarsNumVars = Number of variables read using READ_NUM_VARS command
+
+HoleFrError = Error code set by all HOLEFR commands
+
+The HOLEFR_GET_FEAT command set these variables
+HoleFrRef, HoleFrType, HoleFrCS, HoleFrRevCS, HoleFrThroughType
+HoleFrDia, HoleFrDiaTop, HoleFrDepth, HoleFrMidDepth, HoleFrFullDepth
+HoleFrTopClear, HoleFrBottomClear, HoleFrTopZ, HoleFrBottomZ
+HoleFrTop, HoleFrBottom, HoleFrWidth, HoleFrAngle, HoleFrtipAngle
+HoleFrPosX, HoleFrPosY, HoleFrPosZ
+HoleFrPosTopX, HoleFrPosTopY, HoleFrPosTopZ
+HoleFrPosAxisX, HoleFrPosAxisY, HoleFrPosAxisZ
+
+CsNumber = Number of CS created
+WgNumber = Number of WorkGroup created
+CsCategoryNumber = Number of CS Category created
+WgCategoryNumber = Number of WorkGroup Category created
+Button = Number of button pressed on macro dialog. OK button = zero
+
+
+
+INTERNAL VARIABLES
+
+These variables are automatically set by the macro plugin and can be used in any macro
+
+Macro Plugin Version number (version1.version2.version3)
+
+PLUGIN_VERSION_1
+PLUGIN_VERSION_2
+PLUGIN_VERSION_3
+
+GibbsCAM Version number (version1.version2.version3)
+
+GIBBSCAM_VERSION_1
+GIBBSCAM_VERSION_2
+GIBBSCAM_VERSION_3
+
+GIBBSCAM_LANGUAGE
+
+Languages
+LANGUAGE_CHINESE
+LANGUAGE_CZECH
+LANGUAGE_ENGLISH
+LANGUAGE_FRENCH
+LANGUAGE_GERMAN
+LANGUAGE_ITALIAN
+LANGUAGE_JAPANESE
+LANGUAGE_KOREAN
+LANGUAGE_POLISH
+LANGUAGE_PORTUGESE
+LANGUAGE_RUSSIAN
+LANGUAGE_SPANISH
+LANGUAGE_SWEDISH
+LANGUAGE_TURKISH
+
+CURRENT_WG_NUMBER
+CURRENT_CS_NUMBER
+
+SCREEN_WIDTH
+SCREEN_HEIGHT
+
+GIBBSCAM_WINDOW_X1
+GIBBSCAM_WINDOW_Y1
+GIBBSCAM_WINDOW_X2
+GIBBSCAM_WINDOW_Y2
+
+EXCEL_IS_OPEN
+EXCEL_IS_VISIBLE
+
+Mill Tool Types
+
+TOOL_TYPE_ROUGH_END_MILL
+TOOL_TYPE_FINISH_END_MILL
+TOOL_TYPE_BALL_END_MILL
+TOOL_TYPE_SHELL_CUTTER
+TOOL_TYPE_FACE_CUTTER
+TOOL_TYPE_FLY_CUTTER
+TOOL_TYPE_KEY_CUTTER
+TOOL_TYPE_THREAD_MILL
+TOOL_TYPE_DRILL
+TOOL_TYPE_CENTER_DRILL
+TOOL_TYPE_SPOT_DRILL
+TOOL_TYPE_BORE
+TOOL_TYPE_BACK_BORE
+TOOL_TYPE_TAP
+TOOL_TYPE_RIGID_TAP
+TOOL_TYPE_SPOT_FACE
+TOOL_TYPE_REAMER
+TOOL_TYPE_COUNTERSINK
+TOOL_TYPE_ROUNDOVER
+
+Lathe Tool Types
+
+TOOL_TYPE_80_DEG
+TOOL_TYPE_55_DEG
+TOOL_TYPE_35_DEG
+TOOL_TYPE_ROUND
+TOOL_TYPE_SQUARE
+TOOL_TYPE_TRIANGLE
+TOOL_TYPE_TRIGON
+TOOL_TYPE_PENTAGON
+TOOL_TYPE_55_PARA
+TOOL_TYPE_RECTANGL
+TOOL_TYPE_RECTANGLE
+TOOL_TYPE_GROOVE
+TOOL_TYPE_CUTOFF
+TOOL_TYPE_THREAD1
+TOOL_TYPE_THREAD2
+TOOL_TYPE_VPROFILE
+TOOL_TYPE_FORM
+TOOL_TYPE_UTIL
+
+Lathe Insert Orientation
+
+TOOL_ORIENT_UP_RIGHT
+TOOL_ORIENT_UP_LEFT
+TOOL_ORIENT_DOWN_LEFT
+TOOL_ORIENT_DOWN_RIGHT
+TOOL_ORIENT_RIGHT_UP
+TOOL_ORIENT_LEFT_UP
+TOOL_ORIENT_LEFT_DOWN
+TOOL_ORIENT_RIGHT_DOWN
+
+Lathe Insert Orientation (short versions)
+
+TOOL_ORIENT_UR
+TOOL_ORIENT_UL
+TOOL_ORIENT_DL
+TOOL_ORIENT_DR
+TOOL_ORIENT_RU
+TOOL_ORIENT_LU
+TOOL_ORIENT_LD
+TOOL_ORIENT_RD
+
+Mill Tool Holder Types
+
+MTOOL_HOLDER_TYPE_BORE
+MTOOL_HOLDER_TYPE_COLLET
+MTOOL_HOLDER_TYPE_TG_COLLET
+MTOOL_HOLDER_TYPE_DRILL
+MTOOL_HOLDER_TYPE_MILL
+MTOOL_HOLDER_TYPE_ROT_CLAMP
+MTOOL_HOLDER_TYPE_SHELL
+MTOOL_HOLDER_TYPE_SHRINK_FIT
+MTOOL_HOLDER_TYPE_TAP
+
+Feature Types
+
+FEAT_TYPE_POINT
+FEAT_TYPE_LINE
+FEAT_TYPE_ARC
+FEAT_TYPE_CURVE
+FEAT_TYPE_SPLINE
+FEAT_TYPE_LINE_IJK
+FEAT_TYPE_RAPID
+FEAT_TYPE_CTOOL
+FEAT_TYPE_MARKER
+
+Face Types
+
+FACE_TYPE_FLAT
+FACE_TYPE_SPHERE
+FACE_TYPE_CYLINDER
+FACE_TYPE_CONE
+FACE_TYPE_TORUS
+FACE_TYPE_SPUN
+FACE_TYPE_EXTRUDED
+FACE_TYPE_OFFSET
+FACE_TYPE_SPLINE
+FACE_TYPE_BLEND
+
+
+GET_NUM_PART_COMMENT_LINES <number of lines>
+GET_LINE_PART_COMMENT <line number> <text>
+GET_ADD_PART_COMMENT <text>
+GET_CLEAR_PART_COMMENT
+
+GET_NUM_PROG_NOTES_LINES <number of lines>
+GET_LINE_PROG_NOTES <line number> <text>
+GET_ADD_PROG_NOTES <text>
+GET_CLEAR_PROG_NOTES
+
+
+GET_PART_DATA <parameter> <value>
+SET_PART_DATA <parameter> <value>
+
+
+Part Data Parameters - Integer Values
+
+TYPE
+UNITS
+RADIUS
+AUTO_CLEAR_ON
+
+MACH_FLOWS
+TG_COUNT
+WP_COUNT
+
+NUM_FLOWS
+NUM_TOOL_GROUPS
+NUM_SPINDLES
+
+GRAPHIC_PART_DIST_ON
+
+
+Part Data Parameters - Floating Point Values
+
+CP1
+CLEAR_RAD
+AUTO_CLEAR_VAL
+GRAPHIC_PART_DIST_VAL
+
+
+Mill Part Data Parameters - Floating Point Values
+
+TOOL_CHANGE_X
+TOOL_CHANGE_Y
+STOCK_X1
+STOCK_Y1
+STOCK_Z1
+STOCK_X2
+STOCK_Y2
+STOCK_Z2
+
+
+Lathe Part Data Parameters - Floating Point Values
+
+TOOL_CHANGE_X
+TOOL_CHANGE_Z
+
+STOCK_RAD
+STOCK_Z1
+STOCK_Z2
+
+
+Part Data Parameters - String Values
+
+PART_NAME
+PART_FILE
+MDD_NAME
+MDD_FILE
+COMMENT
+ALLOY
+FAMILY
+HARDNESS
+
+
+GET_MULTI_PART_DATA <parameter> <values>
+SET_MULTI_PART_DATA <parameter> <values>
+
+
+Multi Part Data Parameters
+
+MULTI_PART_TYPE
+DUPLICATION_TYPE
+
+TRAVERSE_OPTION
+COMPLETE_EACH_PART
+BACK_AND_FORTH
+
+Multi Part Data Parameters - Duplication Type = Equally Spaced
+NUMBER_OF_PARTS
+ORIGIN_OFFSET (3 values)
+
+Multi Part Data Parameters - Duplication Type = Grid
+NUMBER_OF_PARTS_IN_X
+NUMBER_OF_PARTS_IN_Y
+GRID_OFFSET (3 values)
+GRID_ORDER
+GRID_DIRECTION
+
+
+GET_SPINDLE_NUM
+SET_SPINDLE_NUM
+
+GET_WP_PART_OFFSET <workpiece num> <x> <y> <z>
+SET_WP_PART_OFFSET <workpiece num> <x> <y> <z>
+
+MOVE_PART_ORIGIN <workpiece num> <dx> <dy> <dz>
+
+GET_MTM_DATA <spindle number> <parameter> <value>
+SET_MTM_DATA <spindle number> <parameter> <value>
+
+
+MTM Parameters - Integer Values
+
+SPINDLE_USED
+INITIAL_STOCK
+
+
+MTM Parameters - Integer Values
+
+STOCK_Z1
+STOCK_Z2
+STOCK_RAD
+STOCK_DIA
+
+CHUCK_WIDTH
+CHUCK_PART_LEN
+
+CLEAR_Z
+CLEAR_RAD
+CLEAR_DIA
+
+GET_ACTION_BUTTON_STATE <button> <state>
+SET_ACTION_BUTTON_STATE <button> <state>
+
+<button> must be one of:
+DOC_CONTROL, GEOMETRY, TOOLS, CAM, VIEW, RENDER, POSTING, SYNC
+WG_SELECT, CS_SELECT, CS_MODIFY, SURFACES, SOLIDS, BODY_BAG, DIMENSIONS, SPINDLES
+
+<state> must be one of:
+BUTTON_NOT_ACTIVE, BUTTON_UP, BUTTON_DOWN
+
+
+GET_POST_DATA <parameter> <value>
+SET_POST_DATA <parameter> <value>
+
+RUN_POST [<post filename> <tape filename>]
+
+
+Post Parameters - Integer Values
+
+START_PROG_NUM
+SEQ_FROM
+SEQ_BY
+ABS_MOVES
+METRIC_OUTPUT
+COMMENTS
+OP_STOPS
+NUM_PARTS
+WORK_FIXTURES
+ONE_PART_ALL_TOOLS
+INTER_PART_FULL_UP
+MINIMIZE
+SELECTED_OPS
+PREF_SUB
+
+PREF_HEADER_PROG_NAME
+PREF_HEADER_PROG_COMMENT
+PREF_HEADER_FORMAT_NAME
+PREF_HEADER_FORMAT_CODE
+PREF_HEADER_DATE_TIME
+PREF_HEADER_ABS_INC
+PREF_HEADER_NUM_PARTS
+PREF_HEADER_START_TOOL
+PREF_HEADER_SPECIAL
+
+PREF_OP_OPNUM_TYPE
+PREF_OP_OP_COMMENT
+PREF_OP_WG_COMMENT
+PREF_OP_TOOLNUM_TYPE
+PREF_OP_TOOL_COMMENT
+
+PREF_FOOTER_CHARS
+PREF_FOOTER_FEET
+PREF_FOOTER_METERS
+PREF_FOOTER_METRES
+
+
+Post Parameters - Floating Point Values
+
+PART_SPACING_X
+PART_SPACING_Y
+PART_SPACING_Z
+
+
+Post Parameters - Floating String Values
+
+POST_FILE
+OUTPUT_FILE
+
+Custom Post Variables - used by post callback macros
+
+GET_POST_NUM <variable number> <variable>
+GET_POST_VAR <variable name> <variable>
+GET_POST_FLAG <flag number> <variable>
+SET_POST_NUM <variable number> <value>
+SET_POST_VAR <variable name> <value>
+SET_POST_FLAG <flag name> <value>
+GET_POST_SEQ <variable>
+OUTPUT_POST_LINE <text>
+
+GET_NUM_POST_TOOL_IDS <num ids>
+GET_POST_TOOL_ID <index> <tool> <id>
+
+Run Apt CL
+
+There are 2 versions of this command
+RUN_APT_CL <output filename> (use general AptCL, all ops)
+RUN_APT_CL <menu name> <output file> [<selected ops>]
+
+
+The HOLEFR commands are used to read data from the Hole Manager
+
+This data is divided into groups. Use the HOLEFR command to load the data
+and return the number of groups of data. Then use HOLEFR_GET_GROUP to see
+how many hole features there are in specific group. Finally HOLEFR_GET_HOLE_DATA is
+used to get the data for each hole feature in a given group.
+
+HOLEFR_GET_DATA  <WG> <num groups>
+HOLEFR_GET_GROUP <group> <num hole features>
+HOLEFR_GET_HOLE  <hole num>
+
+You must use HOLEFR_GET_DATA to load the data for a given WorkGroup
+Then use HOLEFR_GET_GROUP to load the data for a given hole group
+Then use HOLEFR_GET_HOLE to get data for each hole feature in the group
+The hole feature data is set in a number of variables that you can use
+
+HoleFrRef, HoleFrType, HoleFrCS, HoleFrRevCS, HoleFrThroughType
+HoleFrDia, HoleFrDiaTop, HoleFrDepth, HoleFrMidDepth, HoleFrFullDepth
+HoleFrTopClear, HoleFrBottomClear, HoleFrTopZ, HoleFrBottomZ
+HoleFrTop, HoleFrBottom, HoleFrWidth, HoleFrAngle, HoleFrtipAngle
+HoleFrPosX, HoleFrPosY, HoleFrPosZ
+HoleFrPosTopX, HoleFrPosTopY, HoleFrPosTopZ
+HoleFrPosAxisX, HoleFrPosAxisY, HoleFrPosAxisZ
+
+After each of the HOLEFR commands you can check the variable
+HoleFrError, which will be zero if successful
+
+HOLEFR_GET_NUM_HOLES <number of holes>
+HOLEFR_GET_LIST_HOLES <array:list of holes> [<num holes>]
+HOLEFR_GET_NUM_SELECTED_HOLES <num holes>
+HOLEFR_GET_LIST_SELECTED_HOLES <array:list of holes> [<num holes>]
+
+HOLEFR_GET_HOLE_SELECTED <hole number> <selected>
+HOLEFR_SET_HOLE_SELECTED <hole number> <selected>
+
+HOLEFR_SELECT_HOLE <hole number>
+HOLEFR_SELECT_ALL_HOLES
+HOLEFR_DESELECT_HOLE <hole number>
+HOLEFR_DESELECT_ALL_HOLES
+
+HOLEFR_GET_NUM_GROUPS <number of groups>
+HOLEFR_GET_GROUP_SELECTED <group number> <selected>
+HOLEFR_SET_GROUP_SELECTED <group number> <selected>
+HOLEFR_CREATE_GROUP <group name> <group number created>
+
+Note: in version 10.8.78, these commands were replaced
+
+HOLEFR_GET_HOLE replaced by HOLEFR_GET_HOLE
+HOLEFR_GET_NUM_FEAT replaced by HOLEFR_GET_NUM_HOLES
+HOLEFR_GET_FEAT_SELECTED replaced by HOLEFR_GET_HOLE_SELECTED
+HOLEFR_SET_FEAT_SELECTED replaced by HOLEFR_SET_HOLE_SELECTED
+
+Also, the variables HoleFrCS and HoleFrRevCS have been removed
+
+HOLEFR_ACTIVATE_HOLE_CS <hole num> <cs number> [<is it a new cs>]
+
+You can run the AFR and Grouping functions of the Hole Manager from a macro.
+
+You must first initialize the Hole Manager, then set parameters for the
+AFR dialogs and and grouping dialogs. Once you have created the hole
+features, you MUST close these functions. if you do not, the Hole Manager
+may no longer function correctly in the current GibbsCAM session
+
+SET_HOLEFR_PARAM <parameter> <value>
+RUN_HOLEFR <option>
+<option> = INIT, AFR, GROUP, AUTOWIZ, SHOW, HIDE, FINISH)
+
+HoleFr Parameters - Integer Values
+
+AFR_SELECT_MODE
+AFR_MATCH_MODE
+AFR_CS_MODE
+AFR_CS1_ORIGIN
+GROUP_MODE
+GROUP_SAME_TYPE
+GROUP_SAME_CS
+GROUP_SAME_DIA
+GROUP_KEEP
+GROUP_SAME_TOP_Z
+GROUP_SAME_BOTTOM_Z
+GROUP_SAME_MID_Z
+
+HoleFr Parameters - Floating Point Values
+
+AFR_CLEAR_PLANE_TOL
+GROUP_ANG_TOL
+GROUP_LIN_TOL
+PREFS_TOP_CLEAR
+PREFS_BLIND_BOTTOM_ADJUST
+PREFS_THRU_BOTTOM_ADJUST
+PREFS_THRU_DRILL_TIP_ANGLE
+
+HoleFr Parameters - String Values
+
+AFR_WG_NAME (maximum 80 characters)
+
+
+FILE_OPEN <filename> <unit> [<type>]
+<unit> is a number from 1 to 10, up to 10 files can be open at one time
+<type> is set to READ or WRITE, if omitted file is open for READ and WRITE
+
+FILE_CLOSE <unit>
+
+FILE_EXISTS <filename> <status>
+<status> variable is set to 1 if the file exists
+
+FILE_DELETE
+FILE_READ_VARS  <unit> <list of up to 10 variable names>
+FILE_WRITE_VARS <unit> <list of up to 10 variable names>
+FILE_READ_TEXT  <unit> <string variable>
+FILE_WRITE_TEXT <unit> <text>
+
+
+EXCEL_OPEN <filename> {<vis>]
+<vis> is set to 1 to open and make Excel visible, 0 for hidden
+
+EXCEL_SAVE
+EXCEL_CLOSE
+
+EXCEL_SELECT_SHEET <sheet name>
+
+EXCEL_FIND_CELL <row 1> <col 1> <row 2> <col 2> <cell text> <row> <cell>
+Search the range of cells from row1, col1 to row2, col 2 for a cell containing the given text. Return the number of the cell it finds in <row> <cell>
+
+
+EXCEL_SET_CELL <row> <col> <value>
+EXCEL_GET_CELL <row> <col> <contents>
+Make sure the variable for <conents> is a string variable if the cell does not contain a numeric value
+
+EXCEL_GET_RANGE <range number> <row 1> <col 1> <row 2> <col 2>
+<range number> is a number from 1 to 10 to store the contents of the range of cells.
+ The range may be used to build a dropdown menu on a dialog
+
+
+IMPORT_ACIS <filename> <scale> <unstitch> <show dialog>
+Set <unstich> to 1 to unstitch. Set <show dialog> to 1 to show the import dialog.
+
+IMPORT_DXF <filename>
+IMPORT_IGES <filename>
+IMPORT_INVENTOR <filename>
+IMPORT_PARASOLID <filename>
+IMPORT_RHINO <filename>
+IMPORT_SOLIDEDGE <filename>
+IMPORT_SOLIDWORKS <filename>
+
+IMPORT_FILE <filename>
+Import a file using the appropriate translator based on the filename suffix.
+Note: Some translators may show import dialogs when using this option, if you need to avoid these dialogs, then you should use the IMPORT command that is specific to your file format, see above list.
+
+
+EXPORT_DXF <filename>
+EXPORT_SOLIDWORKS <filename> [<version>]
+Set <version> to 0 for the current version of Parasolids.
+Set to 80,90,100,110,120,130,140,150,160,170,180 for Parasolid version 8.0 to 18.0
+
+EXPORT_STL <solid ref> <filename> <file type> <accuracy>
+
+
+IMPORT_OPTION <parameter> <value>
+EXPORT_OPTION <parameter> <value>
+
+
+Import and Export Options are used to Import IGES and DXF and Export DXF files
+
+Parameters - Integer Values
+
+COMBINE_PARALLEL_CSS
+SEPARATE_WG_PER_LEVEL
+SEPARATE_WG_PER_CS
+FORCE_1_CS
+PRESERVE_HVD
+ALLOW_POINTS
+ALLOW_LINES
+ALLOW_CIRCLES
+ALLOW_CONICS
+ALLOW_SURFACES
+ALLOW_CURVES
+ALLOW_SUBORDINATES
+ALLOW_INVISIBLES
+ALLOW_ANNOTATIONS
+CHECK_ARCS
+PREFERRED_PLANE
+TRIM_PREFERENCES
+SECOND_PASS
+
+
+Parameters - Floating Point Values
+
+CONNECT_RANGE
+CURVE_ACCURACY
+SHRINKAGE
+
+
+Matrices
+
+GET_IDENTITY_MATRIX <matrix array>
+GET_TRANSLATE_MATRIX <matrix array> <dx> <dy> <dz>
+GET_ROTATE_MATRIX <matrix array> <vx> <vy> <vz> <angle>
+GET_SCALE_MATRIX <matrix array> <scale>
+INVERT_MATRIX <matrix array>
+NORMALIZE_MATRIX <matrix array>
+MULTIPLY_MATRIX <matrix array 1> <matrix array 2> <result matrix>
+TRANSLATE_MATRIX <matrix array> <dx> <dy> <dz>
+ROTATE_MATRIX <matrix array> <vx> <vy> <vz>
+SCALE_MATRIX <matrix array>
+
+TRANSFORM_POSITION <matrix array> <x> <y> <z>
+TRANSFORM_VECTOR <matrix array> <vx> <vy> <vz>
+
+Matrices contain 12 elements. A matrix array must contain at least 12 elements.
+If it contains more than 12, then the fist 12 are always used.
+For translation, the data represent the distance to translate in all 3 axes.
+For rotation, you must define a 3D vector to rotate around.
+
+
+NEW_PART <filename>
+OPEN_PART <filename>
+SAVE_PART
+SAVE_PART_AS <filename>
+SAVE_COPY_AS <filename> <copy type>
+CLOSE_PART <force close> <save file>
+OPEN_PACKAGE <filename>
+
+
+NEW_WG <wg number>
+SET_WG <wg number>
+DELETE_WG <wg number>
+GET_WG_DATA <WG num> <parameter name> <variable name>
+SET_WG_DATA <WG num> <parameter name> <value>
+GET_WG_NAME <wg number> <name>
+SET_WG_NAME <wg number> <name>
+GET_WG_VISIBLE <wg number> <visibility>
+SET_WG_VISIBLE <wg number> <visibility>
+UPDATE_WG_WINDOW
+
+
+NEW_CS <cs number>
+SET_CS <cs number>
+DELETE_CS <cs number>
+GET_MASTER_CS <master cs> <wp> <cs number>
+GET_CS_NAME <cs number> <name>
+SET_CS_NAME <cs number> <name>
+GET_CS_WFO <cs number> <wfo number>
+SET_CS_WFO <cs number> <wfo number>
+OPEN_POST_DIALOGCLOSE_POST_DIALOGGET_NUM_WFOS <num>GET_WFO_NAME <index> <name>GET_WFO_INDEX <name> <index>GET_OP_WFO_NAME <op number> <part number> <wfo name>GET_OP_WFO_INDEX <op number> <part number> <wfo index>SET_OP_WFO_NAME <op number> <part number> <wfo name>SET_OP_WFO_INDEX <op number> <part number> <wfo index>UPDATE_CS_WINDOW
+
+GET_GEO_CS <geo ref number> <cs number>
+SET_GEO_CS <geo ref number> <cs number>
+GET_SOL_CS <solid reference number> <variable name>
+SET_SOL_CS <solid reference number> <CS number>
+
+GET_GEO_AIR <geo ref number> <wall/air state>
+SET_GEO_AIR <geo ref number> <wall/air state>
+GET_CS_MATRIX <cs number> <matrix array> [<1=local CS WP>]
+SET_CS_MATRIX <cs number> <matrix array>
+
+AUTO_CS <use face origin> <number of new CSs created> [<array:list of new CSs>]
+
+MODIFY_CS <CS number> <ORIGIN/ALIGN_H/ALIGN_V> [point or line data]
+MODIFY_CS <CS number> ORIGIN <point geo ref>
+MODIFY_CS <CS number> ORIGIN <x> <y> <z>
+MODIFY_CS <CS number> ALIGN_H <line geo ref>
+MODIFY_CS <CS number> ALIGN_H <x1> <y1> <z1> <x2> <y2> <z2>
+MODIFY_CS <CS number> ALIGN_V uses same parameters as ALIGN_H
+
+CLIPBOARD <option>
+<option> must be CUT, COPY or PASTE
+
+REDRAW
+ZOOM_VIEW <factor>
+SET_VIEW <view>
+<view> must be TOP, FRONT, LEFT, RIGHT, BACK, BOTTOM, ISO, HOME
+
+SHRINK_WRAP
+
+DEGREES
+RADIANS
+
+
+INPUT <prompt> <variable> [<default> <caption>]
+YESNO <prompt> <variable> [<caption>]
+
+MESSAGE <text>
+STOP <text>
+
+EVAL_TEXT <text variable name>
+ESC_TEXT <replace escape sequences>
+SWAP_VALUES <variable 1> <variable 2>
+
+SET_UNDO <undo type>
+
+<undo type> may be one of the following:
+
+
+TOOL_NEW
+TOOL_DEL
+TOOL_MOVE
+OP_NEW
+OP_DEL
+OP_MOVE
+PROC_NEW
+PROC_DEL
+PROC_MOVE
+WG_NEW
+WG_DEL
+WG_MOD
+CS_NEW
+CS_DEL
+CS_MOD
+
+DEBUG <list of variables>
+You can use text in double quotes as any of the list of variables
+to help with debugging, for example DEBUG "Tool data", toolnum, tooldia
+
+TRACE <ON/OFF>
+When the trace is on, you will see a message box that shows the line
+number and the contents of the line (without comments) that is being
+processed in the macro. Use this to follow the progress through a macro.
+Use TRACE OFF to stop this, or press the CANCEL button on the message box
+
+ON_ERROR GOTO <label>
+
+USE_ERROR_CODE <code type> <enable/disable>
+<code type> = TOOL_DATA, PROC_DATA or OP_DATA
+
+
+CHECK PART_OPEN
+CHECK PART_MILL
+CHECK PART_LATHE
+CHECK PART_MTM
+
+
+RUN_EXE <exe filename> [<text to pass to exe>], [<add quotes>], [wait for it to finish]
+RUN_CMD <app name> [<text to pass to exe>], [<add quotes>], [wait for it to finish]
+RUN_REPORTER <output file> <reporter type> [<custom template>] [render type>]
+
+
+SLEEP <time in milliseconds>
+
+
+FILE_DIALOG_NEW <caption>
+FILE_DIALOG_EXTENSION <description> <extension>
+FILE_DIALOG_DIR <initial directory>
+FILE_DIALOG_SHOW <state> <filename>
+
+Use FILE_DIALOG to create a file open dialog. <description> is shown on the 'List of files type' dropdown on the dialog. <state> must be OPEN or SAVE to show a 'File Open' or 'File Save' dialog
+
+
+GET_KEY_TYPE <key type>
+GET_KEY_NUMBER <data 1> <data 2> <data 3> <data 4>
+
+GET_FOLDER_FROM_PATH <path name> <folder>
+GET_FILENAME_FROM_PATH <path name> <file name>
+REMOVE_FILENAME_EXTENSION <file name>
+GET_KEY_STRING <Gibbs ID string>
+
+EXIT_GIBBSCAM
+This command will close all dialogs and exit GibbsCAM without saving any data.
+
+OP_TIME_ENGINE INIT
+
+OP_TIME_ENGINE GET_OP_START_TIME <op number> <time>
+OP_TIME_ENGINE GET_OP_END_TIME <op number> <time>
+OP_TIME_ENGINE GET_TOTAL_TIME <op number> <time>
+OP_TIME_ENGINE GET_OP_FEED_LEN <op number> <length>
+OP_TIME_ENGINE GET_OP_RAPID_LEN <op number> <length>
+
+OP_TIME_ENGINE GET_PART_TIME <time>
+OP_TIME_ENGINE GET_PART_FEED_LEN <length>
+OP_TIME_ENGINE GET_PART_RAPID_LEN <length>
+
+OP_TIME_ENGINE FINISH
+
+GET_TMS_PART_TIME <time>
+
+ELAPSED_TIME INIT
+ELAPSED_TIME GET <time in seconds>
+
+
+INTERMEDIATE TOOLING Commands
+
+Machine definition
+
+IT_MACHINE_GET_DATA <parameter> <value>
+IT_MACHINE_SET_DATA <parameter> <value>
+
+IT_MACHINE_GET_BLOCK_MAKE <index> <make>
+IT_MACHINE_GET_FIXTURE_MAKE <index> <make>
+
+IT_MACHINE_GET_LIST_BLOCK_TYPES <array:list of types> <num>
+IT_MACHINE_GET_LIST_SHANK_SIZES <array:list of shank sizes> <num>
+
+IT_MACHINE_GET_TOOLGROUP_DATA <toolgroup> <parameter> <value>
+IT_MACHINE_GET_TOOLGROUP_DATA <toolgroup> <parameter> <value>
+
+IT_MACHINE_GET_STATION_DATA <toolgroup> <station> <parameter> <value>
+IT_MACHINE_SET_STATION_DATA <toolgroup> <station> <parameter> <value>
+
+IT_MACHINE_STATION_GET_BLOCK_TYPE <toolgroup> <station> <index> <type number> <type text>
+IT_MACHINE_STATION_GET_SHANK_SIZE <toolgroup> <station> <index> <size number> <size text>
+IT_MACHINE_STATION_GET_SUB_POS <toolgroup> <station> <index> <sub position>
+
+IT_MACHINE_STATION_GET_LIST_BLOCK_TYPES <toolgroup> <station> <array:list of types> <num>
+IT_MACHINE_STATION_SET_LIST_BLOCK_TYPES <toolgroup> <station> <array:list of types> <num>
+
+IT_MACHINE_STATION_GET_LIST_SHANK_SIZES <toolgroup> <station> <array:list of shank sizes> <num>
+IT_MACHINE_STATION_SET_LIST_SHANK_SIZES <toolgroup> <station> <array:list of shank sizes> <num>
+
+IT_MACHINE_GET_MACHINE_FIXTURE_NODE_NAME <index> <name>
+IT_MACHINE_GET_MACHINE_FIXTURE_NODE_DATA <index> <parameter> <value>
+IT_MACHINE_SET_MACHINE_FIXTURE_NODE_DATA <index> <parameter> <value>
+
+IT_MACHINE_GET_MACHINE_ATTACH_NODE_NAME <index> <name>
+IT_MACHINE_GET_MACHINE_ATTACH_NODE_DATA <index> <parameter> <value>
+IT_MACHINE_SET_MACHINE_ATTACH_NODE_DATA <index> <parameter> <value>
+
+Block Libraries
+
+IT_BLOCK_LIBRARY_ADD <block make>
+IT_BLOCK_LIBRARY_DELETE <block make>
+IT_BLOCK_LIBRARY_RENAME <old block make> <new block make>
+
+IT_BLOCKS_GET_NUM_MAKES <number of block names>
+IT_BLOCKS_GET_MAKE_NAME <index> <name>
+IT_BLOCKS_GET_NUM_BLOCKS <name> <num blocks>
+
+IT_BLOCKS_GET_NAME <block make> <index> <block name>
+IT_BLOCKS_GET_DATA <block make> <block name> <oarameter> <value>
+
+IT_BLOCKS_GET_LIST_ALL_BLOCK_TYPES <array:list of types> <num>
+IT_BLOCKS_GET_LIST_TYPES <block make> <block name> <array:list of types> <num>
+IT_BLOCKS_GET_TYPE <block make> <block name> <index> <number> [<text>]
+
+IT_BLOCKS_GET_LIST_ALL_SHANK_SIZES <array:list of shank sizes> <num>
+IT_BLOCKS_GET_LIST_SHANK_SIZES <block make> <block name> <array:list of shank sizes> <num>
+IT_BLOCKS_GET_SHANK_SIZE <block make> <block name> <index> <number> [<text>]
+
+IT_BLOCKS_GET_LIST_ATTACH_CS <block make> <block name> <array:list of attach CSs> <num>
+IT_BLOCKS_GET_ATTACH_CS <block make> <block name> <index> <number> [<text>]
+
+IT_BLOCKS_ADD <block make> <block name>
+IT_BLOCKS_DELETE <block make> <block name>
+IT_BLOCKS_RENAME <block make> <old block name> <new block name>
+
+IT_BLOCKS_SET_DATA <block make> <block name> <oarameter> <value>
+
+IT_BLOCKS_ADD_TYPE <block make> <block name> <value>
+IT_BLOCKS_REMOVE_TYPE <block make> <block name> <value>
+
+IT_BLOCKS_ADD_SHANK_SIZE <block make> <block name> <value>
+IT_BLOCKS_REMOVE_SHANK_SIZE <block make> <block name> <value>
+
+IT_BLOCKS_ADD_ATTACH_CS <block make> <block name> <value>
+IT_BLOCKS_REMOVE_ATTACH_CS <block make> <block name> <value>
+
+Setup blocks associated with tool stations
+
+IT_SETUP_STATION_GET_NUM_MATCHING_BLOCKS <toolgroup> <station> <num>
+IT_SETUP_STATION_GET_LIST_MATCHING_BLOCKS <toolgroup> <station> <array:list of makes> <array:list of names> [<num>]
+IT_SETUP_STATION_GET_MATCHING_BLOCK <toolgroup> <station> <index> <block make> <block name>
+
+IT_SETUP_STATION_GET_NUM_BLOCKS <tool> < num blocks>
+IT_SETUP_STATION_GET_BLOCK <toolgroup> <station> [block number] <block make> <block file>[<block name>]
+IT_SETUP_STATION_SET_BLOCK <toolgroup> <station> <matching block number>
+IT_SETUP_STATION_REMOVE_BLOCK <toolgroup> <station>
+
+IT_SETUP_STATION_GET_DATA <toolgroup> <station> <parameter> <value>
+IT_SETUP_STATION_SET_DATA <toolgroup> <station> <parameter> <value>
+
+
+Setup blocks associated with tool tiles
+
+IT_SETUP_TOOL_GET_NUM_MATCHING_BLOCKS <tool> <num>
+IT_SETUP_TOOL_GET_LIST_MATCHING_BLOCKS <tool> <array:list of makes> <array:list of names> [<num>]
+IT_SETUP_TOOL_GET_MATCHING_BLOCK <tool> <index> <block make> <block name>
+
+IT_SETUP_TOOL_GET_NUM_BLOCKS <tool> < num blocks>
+IT_SETUP_TOOL_GET_BLOCK <tool> [block number] <block make> <block name> [<block name>]
+IT_SETUP_TOOL_SET_BLOCK <tool> <matching block number>
+IT_SETUP_TOOL_REMOVE_BLOCK <tool>
+
+IT_SETUP_TOOL_GET_DATA <tool> <parameter> <value>
+IT_SETUP_TOOL_SET_DATA <tool> <parameter> <value>
+
+Setup fixtures associated with the part
+
+IT_SETUP_PART_GET_NUM_FIXTURES <num fixtures>
+IT_SETUP_PART_GET_FIXTURE <fixture index> <fixture make> <fixture name>
+IT_SETUP_PART_REMOVE_FIXTURE <fixture index>
+
+
+Setup fixtures associated with machine nodes
+
+IT_SETUP_NODE_GET_NUM_MATCHING_FIXTURES <node> <num>
+IT_SETUP_NODE_GET_LIST_MATCHING_FIXTURES <node> <array:list of makes> <array:list of names> [<num>]
+IT_SETUP_NODE_GET_MATCHING_FIXTURE <node> <index> <block make> <block name>
+
+IT_SETUP_NODE_GET_NUM_FIXTURES <node> <num fixtures>
+IT_SETUP_NODE_GET_FIXTURE <node> <fixture index> <fixture make> <fixture name>
+IT_SETUP_NODE_ADD_FIXTURE <node> <matching fixture number>
+IT_SETUP_NODE_REMOVE_FIXTURE <node> <fixture index>
+
+
+New string functions:
+IT_SHANK_SIZE_TEXT(<size number)
+IT_BLOCK_TYPE_TEXT(type number)
+
+
+DIALOG <dialog filename>
+
+
+Dialog Commands
+
+
+DIALOG <caption> <left> <top>? <width> <height>
+FONT <font name> <font size>
+
+LABEL <left> <top> <width> <height> <label text>
+INPUT <left> <top> <width> <height> <variable> [<default>]
+CHECK <left> <top> <width> <height> <text> <variable> [<default>]
+RADIO <left> <top> <width> <height> <variable> [<default> <group number>]
+IMAGE <left> <top> <width> <height> <filename>
+FRAME <left> <top> <width> <height> <caption>
+BUTTON <left> <top> <width> <height> <caption> <variable>
+
+DROPDOWN_NEW <left> <top> <width> <height> <variable>
+DROPDOWN_ADD <dropdown number> <caption> <value>
+DROPDOWN_VAL <dropdown number> <initial value>
+DROPDOWN_LIST <number of items> <array:list of entries>  [<array:list of values>]
+DROPDOWN_EXCEL <dropdown number> <excel range number>
+
+ALT_CLICK <control type> <control num> <value>
+
+OK <left> <top> <width> <height>
+CANCEL <left> <top> <width> <height>
+
+ON_EVENT <control to check> <control to change> <change>
+<change> must be SHOW, HIDE, ENABLE or DISABLE
+
+ON_DROPDOWN <dropdown number> <index> <control to change> <change>
+<index> is the value of the combo, 1 for first item is selected, 2 for second.
+
+ON_RADIO <radio number> <value> <control to change> <change>
+
+SET_STATE <condition> <control to change> <state>
+<state> must be SHOW, HIDE, ENABLE or DISABLE
+
+LOAD_POSITION
+
+LOAD_DEFAULTS [1=enabled/0=disabled]
+SAVE_DEFAULTS [1=enabled/0=disabled]
+
+GET_COMMANDS <filename> [<option>] [<ver1> <ver2> <ver3>]
+
+Get this list of commands. Use 1 for <option> to get the list
+of commands only, use 2 to get the list plus some additional notes.
+
+Use the version number to show commands added after a given version.
+For example, GET_COMMANDS "commands.txt", 2, 9, 1, 3. This will get
+commands and notes, for all commands added at version 9.1.3 or higher.
+
+Set the version number to 0,0,0 to get all commands.

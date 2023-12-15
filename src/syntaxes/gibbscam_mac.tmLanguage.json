@@ -1,0 +1,688 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "GibbsCAM Macro",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#support"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"include": "#keywords-control"
+				},
+				{
+					"include": "#keywords-comparison"
+				}
+			]
+		},
+		"keywords-control": {
+			"patterns": [
+				{
+					"name": "keyword.control.gibbscam_mac",
+					"match": "(?i)\\b(if|then|for|to|step|next|continue|goto|call|include|permanent|global|local)\\b"
+				}
+		]
+		},
+		"keywords-comparison": {
+			"patterns": [
+				{
+					"name": "keyword.comparison.gibbscam_mac",
+					"match": "(=|<>|<|>|<=|>=)"
+				}
+		]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"include": "#strings-quoted-double"
+				},
+				{
+					"include": "#strings-quoted-single"
+				}
+			]
+		},
+		"strings-quoted-double": {
+			"name": "string.quoted.double.gibbscam_mac",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.gibbscam_mac",
+					"match": "\\\\."
+				}
+			]
+		},
+		"strings-quoted-single": {
+			"name": "string.quoted.single.gibbscam_mac",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.gibbscam_mac",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment": {
+			"patterns": [{
+				"name": "comment.line.gibbscam_mac",
+				"match":  "(\\!).*$\n?",
+				"captures": {
+					"1": {
+						"name": "punctuation.definition.comment.gibbscam_mac"
+					}
+				}
+			}]
+		},
+		"support": {
+			"patterns": [
+				{
+					"include": "#support-function-run"
+				},
+				{
+					"include": "#support-constant-run"
+				},
+				{
+					"include": "#support-function-file"
+				},
+				{
+					"include": "#support-function-key"
+				},
+				{
+					"include": "#support-function-op-time-engine"
+				},
+				{
+					"include": "#support-parameter-op-time-engine"
+				},
+				{
+					"include": "#support-function-intermediate-tooling"
+				},
+				{
+					"include": "#support-function-dialog"
+				},
+				{
+					"include": "#support-function-debug"
+				},
+				{
+					"include": "#support-function-undo"
+				},
+				{
+					"include": "#support-constant-undo"
+				},
+				{
+					"include": "#support-function-interact"
+				},
+				{
+					"include": "#support-function-display"
+				},
+				{
+					"include": "#support-variable-display"
+				},
+				{
+					"include": "#support-function-variables"
+				},
+				{
+					"include": "#support-function-cs"
+				},
+				{
+					"include": "#support-variable-cs"
+				},
+				{
+					"include": "#support-function-wg"
+				},
+				{
+					"include": "#support-variable-wg"
+				},
+				{
+					"include": "#support-function-matrix"
+				},
+				{
+					"include": "#support-function-importexport"
+				},
+				{
+					"include": "#support-parameter-importexport"
+				},
+				{
+					"include": "#support-function-file-read-write"
+				},
+				{
+					"include": "#support-function-afr"
+				},
+				{
+					"include": "#support-parameter-afr"
+				},
+				{
+					"include": "#support-variable-afr"
+				},
+				{
+					"include": "#support-function-post"
+				},
+				{
+					"include": "#support-parameter-post"
+				},
+				{
+					"include": "#support-function-button"
+				},
+				{
+					"include": "#support-constant-button"
+				},
+				{
+					"include": "#support-function-part"
+				},
+				{
+					"include": "#support-parameter-part"
+				},
+				{
+					"include": "#support-constant-tool"
+				},
+				{
+					"include": "#support-function-feature"
+				},
+				{
+					"include": "#support-parameter-feature"
+				},
+				{
+					"include": "#support-constant-feature"
+				},
+				{
+					"include": "#support-constant-gibbs"
+				},
+				{
+					"include": "#support-variable-gibbs"
+				},
+				{
+					"include": "#support-function-list"
+				},
+				{
+					"include": "#support-variable-list"
+				},
+				{
+					"include": "#support-function-op"
+				},
+				{
+					"include": "#support-parameter-op"
+				},
+				{
+					"include": "#support-function-path"
+				},
+				{
+					"include": "#support-function-process"
+				},
+				{
+					"include": "#support-parameter-process"
+				},
+				{
+					"include": "#support-constant-process"
+				},
+				{
+					"include": "#support-function-tt"
+				},
+				{
+					"include": "#support-parameter-tt"
+				},
+				{
+					"include": "#support-function-solid"
+				},
+				{
+					"include": "#support-function-engrave"
+				},
+				{
+					"include": "#support-parameter-engrave"
+				},
+				{
+					"include": "#support-function-profiler"
+				},
+				{
+					"include": "#support-constant-profiler"
+				},
+				{
+					"include": "#support-function-geo"
+				}
+			]
+		},
+		"support-function-run": {
+			"patterns": [
+				{
+					"name": "support.function.run.gibbscam_mac",
+					"match": "(?i)\\b(check|run_exe|run_cmd|run_reporter|sleep|exit_gibbscam)\\b"
+				}
+		]
+		},
+		"support-constant-run": {
+			"patterns": [
+				{
+					"name": "support.constant.run.gibbscam_mac",
+					"match": "(?i)\\b(part_open|part_mill|part_lathe|part_mtm)\\b"
+				}
+		]
+		},
+		"support-function-file": {
+			"patterns": [
+				{
+					"name": "support.function.file.gibbscam_mac",
+					"match": "(?i)\\b(file_dialog|file_dialog_\\w+|new_part|open_part|save_part|save_part_as|save_copy_as|close_part|open_package|get_folder_from_path|get_filename_from_path|remove_filename_extension)\\b"
+				}
+		]
+		},
+		"support-function-key": {
+			"patterns": [
+				{
+					"name": "support.function.file.gibbscam_mac",
+					"match": "(?i)\\b(get_key_\\w+)\\b"
+				}
+		]
+		},
+		"support-function-op-time-engine": {
+			"patterns": [
+				{
+					"name": "support.function.op-time-engine.gibbscam_mac",
+					"match": "(?i)\\b(op_time_engine|get_tms_part_time|elapsed_time)\\b"
+				}
+		]
+		},
+		"support-parameter-op-time-engine": {
+			"patterns": [
+				{
+					"name": "support.parameter.op-time-engine.gibbscam_mac",
+					"match": "(?i)\\b(get_op_start_time|get_op_end_time|get_total_time|get_op_feed_len|get_op_rapid_len|get_part_time|get_part_feed_len|get_part_rapid_len|finish|init|get)\\b"
+				}
+		]
+		},
+		"support-function-intermediate-tooling": {
+			"patterns": [
+				{
+					"name": "support.function.intermediate-tooling.gibbscam_mac",
+					"match": "(?i)\\b(it_machine\\w+|it_block\\w+|it_setup\\w+|it_shank\\w+)\\b"
+				}
+		]
+		},
+		"support-function-dialog": {
+			"patterns": [
+				{
+					"name": "support.function.dialog.gibbscam_mac",
+					"match": "(?i)\\b(dialog|font|label|input|check|radio|image|frame|button|dropdown_\\w+|alt_click|ok|cancel|on_event|on_dropdown|on_radio|set_state|load_position|load_defaults|save_defaults|get_commands)\\b"
+				}
+		]
+		},
+		"support-function-debug": {
+			"patterns": [
+				{
+					"name": "support.function.debug.gibbscam_mac",
+					"match": "(?i)\\b(on_error|use_error_code|trace|debug)\\b"
+				}
+		]
+		},
+		"support-function-undo": {
+			"patterns": [
+				{
+					"name": "support.function.undo.gibbscam_mac",
+					"match": "(?i)\\b(set_undo)\\b"
+				}
+		]
+		},
+		"support-constant-undo": {
+			"patterns": [
+				{
+					"name": "support.constant.undo.gibbscam_mac",
+					"match": "(?i)\\b(tool_new|tool_del|tool_move|op_new|op_del|op_move|proc_new|proc_del|proc_move|wg_new|wg_del|wg_mod|cs_new|cs_del|cs_mod)\\b"
+				}
+		]
+		},
+		"support-function-interact": {
+			"patterns": [
+				{
+					"name": "support.function.interact.gibbscam_mac",
+					"match": "(?i)\\b(input|yesno|message|stop|clipboard|progress_\\w+)\\b"
+				}
+		]
+		},
+		"support-function-display": {
+			"patterns": [
+				{
+					"name": "support.function.display.gibbscam_mac",
+					"match": "(?i)\\b(redraw|zoom_view|set_view|shrink_wrap)\\b"
+				}
+		]
+		},
+		"support-variable-display": {
+			"patterns": [
+				{
+					"name": "support.variable.display.gibbscam_mac",
+					"match": "(?i)\\b(gibbscam_window_\\w+|screen_\\w+)\\b"
+				}
+		]
+		},
+		"support-function-variables": {
+			"patterns": [
+				{
+					"name": "support.function.variables.gibbscam_mac",
+					"match": "(?i)\\b(abs|int|sqrt|sin|cos|tan|asin|acos|atan|len|val|asc|degrees|radians|eval_text|esc_text|swap_values)\\b|\\b((left|right|mid|ltrim|rtrim|trim|lcase|ucase|chr)\\$)"
+				}
+		]
+		},
+		"support-function-cs": {
+			"patterns": [
+				{
+					"name": "support.function.cs.gibbscam_mac",
+					"match": "(?i)\\b(modify_cs|auto_cs|get_master_cs|delete_cs|set_cs|new_cs|\\w+et_cs_matrix|\\w+et_geo_air|\\w+et_geo_cs|\\w+et_sol_cs|open_post_dialog|close_post_dialog|get_num_wfos|get_wfo_name|get_wfo_index|get_op_wfo_name|get_op_wfo_index|set_op_wfo_name|set_op_wfo_index|update_cs_window|\\w+et_cs_wfo|\\w+et_cs_name)\\b"
+				}
+		]
+		},
+		"support-variable-cs": {
+			"patterns": [
+				{
+					"name": "support.variable.cs.gibbscam_mac",
+					"match": "(?i)\\b(current_cs_number|csnumber|cscategorynumber|wgcategorynumber)\\b"
+				}
+		]
+		},
+		"support-function-wg": {
+			"patterns": [
+				{
+					"name": "support.function.wg.gibbscam_mac",
+					"match": "(?i)\\b(new_wg|set_wg|delete_wg|update_wg_window|\\w+et_wg_data|\\w+et_wg_name|\\w+et_wg_visible)\\b"
+				}
+		]
+		},
+		"support-variable-wg": {
+			"patterns": [
+				{
+					"name": "support.variable.wg.gibbscam_mac",
+					"match": "(?i)\\b(current_wg_number|wgnumber)\\b"
+				}
+		]
+		},
+		"support-function-matrix": {
+			"patterns": [
+				{
+					"name": "support.function.matrix.gibbscam_mac",
+					"match": "(?i)\\b(transform_position|transform_vector|\\w+_matrix)\\b"
+				}
+		]
+		},
+		"support-function-importexport": {
+			"patterns": [
+				{
+					"name": "support.function.importexport.gibbscam_mac",
+					"match": "(?i)\\b(import_\\w+|export_\\w+)\\b"
+				}
+		]
+		},
+		"support-parameter-importexport": {
+			"patterns": [
+				{
+					"name": "support.parameter.importexport.gibbscam_mac",
+					"match": "(?i)\\b(connect_range|curve_accuracy|shrinkage|second_pass|trim_preferences|preferred_plane|check_arcs|allow_\\w+|preserve_hvd|force_1_cs|separate_wg_per_cs|separate_wg_per_level|combine_parallel_css)\\b"
+				}
+		]
+		},
+		"support-function-file-read-write": {
+			"patterns": [
+				{
+					"name": "support.function.file-read-write.gibbscam_mac",
+					"match": "(?i)\\b(excel_\\w+|file_\\w+)\\b"
+				}
+		]
+		},
+		"support-function-afr": {
+			"patterns": [
+				{
+					"name": "support.function.afr.gibbscam_mac",
+					"match": "(?i)\\b(run_holefr|set_holefr_param|holefr_activate_hole_cs|holefr_\\w+)\\b"
+				}
+		]
+		},
+		"support-parameter-afr": {
+			"patterns": [
+				{
+					"name": "support.parameter.afr.gibbscam_mac",
+					"match": "(?i)\\b(afr_wg_name|prefs_thru_drill_tip_angle|prefs_thru_bottom_adjust|prefs_blind_bottom_adjust|prefs_top_clear|group_lin_tol|group_ang_tol|afr_clear_plane_tol|group_mode|group_same_\\w+|group_keep|afr_cs1_origin|afr_cs_mode|afr_match_mode|afr_select_mode|init|afr|group|autowiz|show|hide|finish)\\b"
+				}
+		]
+		},
+		"support-variable-afr": {
+			"patterns": [
+				{
+					"name": "support.variable.afr.gibbscam_mac",
+					"match": "(?i)\\b(holefr\\w+)\\b"
+				}
+		]
+		},
+		"support-function-post": {
+			"patterns": [
+				{
+					"name": "support.function.post.gibbscam_mac",
+					"match": "(?i)\\b(\\w+et_post_data|run_post|\\w+et_post_\\w+|output_post_line|get_num_post_tool_ids|get_num_post_tool_ids|get_post_tool_id|run_apt_cl)\\b"
+				}
+		]
+		},
+		"support-parameter-post": {
+			"patterns": [
+				{
+					"name": "support.parameter.post.gibbscam_mac",
+					"match": "(?i)\\b(start_prog_num|seq_from|seq_by|abs_moves|metric_output|comments|op_stops|num_parts|work_fixtures|one_part_all_tools|inter_part_full_up|minimize|selected_ops|pref_sub|pref_header_\\w+|pref_op_\\w+|pref_footer_\\w+|part_spacing_\\w+|post_file|output_file)\\b"
+				}
+		]
+		},
+		"support-function-button": {
+			"patterns": [
+				{
+					"name": "support.function.button.gibbscam_mac",
+					"match": "(?i)\\b(\\w+et_action_button_state)\\b"
+				}
+		]
+		},
+		"support-constant-button": {
+			"patterns": [
+				{
+					"name": "support.constant.language.button.gibbscam_mac",
+					"match": "(?i)\\b(doc_control|geometry|tools|cam|view|render|posting|sync|wg_select|cs_select|cs_modify|surfaces|solids|body_bag|dimensions|spindles|button_not_active|button_up|button_down)\\b"
+				}
+		]
+		},
+		"support-function-part": {
+			"patterns": [
+				{
+					"name": "support.function.part.gibbscam_mac",
+					"match": "(?i)\\b(\\w+et_part_data|\\w+et_multi_part_data|get_num_part_comment_lines|get_line_part_comment|get_add_part_comment|get_clear_part_comment|get_num_prog_notes_lines|get_line_prog_notes|get_add_prog_notes|get_clear_prog_notes|\\w+et_spindle_num|\\w+et_wp_part_offset|move_part_origin|\\w+et_mtm_data)\\b"
+				}
+		]
+		},
+		"support-parameter-part": {
+			"patterns": [
+				{
+					"name": "support.parameter.part.gibbscam_mac",
+					"match": "(?i)\\b(num_flows|num_tool_groups|num_spindles|mach_flows|tg_count|wp_count|type|units|radius|auto_clear_on|multi_part_type|duplication_type|traverse_option|complete_each_part|back_and_forth|number_of_parts|origin_offset|number_of_parts_in_\\w+|grid_\\w+|spindle_used|initial_stock|tool_change_\\w+|stock_\\w+|chuck_width|chuck_part_len|cp1|auto_clear_val|graphic_part_dist_\\w+|clear_rad|clear_z|clear_dia|part_name|part_file|mdd_name|mdd_file|comment|alloy|family|hardness)\\b"
+				}
+		]
+		},
+		"support-constant-tool": {
+			"patterns": [
+				{
+					"name": "support.constant.tool.gibbscam_mac",
+					"match": "(?i)\\b(tool_type\\w+|tool_orient\\w+|mtool_holder_type_\\w+)\\b"
+				}
+		]
+		},
+		"support-function-feature": {
+			"patterns": [
+				{
+					"name": "support.function.face.gibbscam_mac",
+					"match": "(?i)\\b(get_edge_user_color|get_face_user_color|set_edge_user_color|set_face_user_color|select_face_by_user_color|select_edge_by_user_color|is_body_bag_open|open_body_bag|close_body_bag|solid_rebuild|solid_clear_history|solid_remove_uneeded_topology|solid_simplify|solid_check_body_validity|solid_check_face_validity|solid_machining_face_check|get_num_features|get_feature_number|get_feature_data|select_feature|create_feature)\\b"
+				}
+		]
+		},
+		"support-parameter-feature": {
+			"patterns": [
+				{
+					"name": "support.parameter.face.gibbscam_mac",
+					"match": "(?i)\\b(name)\\b"
+				}
+		]
+		},
+		"support-constant-feature": {
+			"patterns": [
+				{
+					"name": "support.constant.face.gibbscam_mac",
+					"match": "(?i)\\b(feat_type_\\w+|face_type_\\w+)\\b"
+				}
+		]
+		},
+		"support-constant-gibbs": {
+			"patterns": [
+				{
+					"name": "support.constant.gibbs.gibbscam_mac",
+					"match": "(?i)\\b(language_\\w+)\\b"
+				}
+		]
+		},
+		"support-variable-gibbs": {
+			"patterns": [
+				{
+					"name": "support.variable.gibbs.gibbscam_mac",
+					"match": "(?i)\\b(gibbscam_language|gibbscam_version_\\w+|plugin_version_\\w+|pointref|lineref|circleref|contourref|solidref|excelerror|excelcelllength|fileerror|readvarsnumvars)\\b"
+				}
+		]
+		},
+		"support-function-list": {
+			"patterns": [
+				{
+					"name": "support.function.list.gibbscam_mac",
+					"match": "(?i)\\b(get_\\w+_list)\\b"
+				}
+		]
+		},
+		"support-variable-list": {
+			"patterns": [
+				{
+					"name": "support.variable.list.gibbscam_mac",
+					"match": "(?i)\\b(number_of_\\w+|first_\\w+_number|next_\\w+_number|last_\\w+_number|first_\\w+_ref|next_\\w+_ref)\\b"
+				}
+		]
+		},
+		"support-function-op": {
+			"patterns": [
+				{
+					"name": "support.function.op.gibbscam_mac",
+					"match": "(?i)\\b(delete_op|move_op_tile|insert_op_tile|get_op_list_shown|show_op_list|hide_op_list|redraw_op_list|scroll_op_list|select_op|select_all_ops|deselect_op|deselect_all_ops|\\w+et_op_\\w+|add_op_\\w+|clear_op_\\w+|reverse_op_\\w+|translate_op_\\w+|create_op_post_data|add_op_post_data|set_op_post_data|copy_op_comment_to_proc|create_op_path|add_op_path_selgeo|rotate_op_\\w+|load_op_process|redo_all_ops|sort_ops|select_op_path_type|delete_op_marker|delete_all_op_markers|\\wet_custom_op_name+)\\b"
+				}
+		]
+		},
+		"support-parameter-op": {
+			"patterns": [
+				{
+					"name": "support.parameter.op.gibbscam_mac",
+					"match": "(?i)\\b(6drill_bore_cut_dia|drill_bore_clear_dia|drill_bore_clear_amount|drill_bore_entry_exit_rad|drill_bore_entry_exit_line|drill_bore_cut_width|drill_bore_stock|drill_bore_overlap|drill_bore_approach_angle|drill_bore_desired_step|time|spindle_speed|x_position|z_position|x_clearance|z_clearance|x_value|z_value|x_drop|z_drop|feedrate|feed_distance|initial_face_z|grip_z|shift_distance|torque_val|pullback|with_part|open_main_collet|main_loaded|flow_num|spindle_num|machine_mode|from_workpiece|to_workpiece|spindle_on|forward|x_home|z_home|part_in_main|part_in_sub|c_synched|sub_in_unload|torque_sensing|location|orientation|full_return|auto_remove|spindle_unloaded|cs|control_point|type|mill_type|lathe_type|tool_num|proc_group|proc_id|proc_op|wg_num|cs_num|path_cs|locks|num_repeats|crc_dir|crc_offset|len_offset|coolant|cut_type|use_css|crc_side|drill_type|drill_clear_plane|drill_pos_approach|material_only|rapid_in|lthread_balanced|lthread_angle_alt|lthread_starts|lthread_last_cut|lathe_prefer_canned|lathe_canned_autofin|lthread_type|lathe_cut_dir|num_spring_passes|lathe_rough_type|lathe_pull_off_wall|lathe_plunge_cut_type|lathe_plunge_center_out|lathe_plunge_type|lathe_plunge_entry_type|lathe_pat_shift_fixed_srt|lathe_pat_shift_passes|lathe_square_corners|lathe_no_drag|lathe_cut_off|lathe_od_id_face|wrap|wrap_dups|prog_stop|pocket_type|tool_group|workpiece|flow|spin_control|lathe_cut_other_side|pocket_entry_ramp|pocket_entry_helix_type|pocket_as_boss|surface_entry_type|surface_entry_ramp_type|mach_engine|feed_connect|crc_offset|pattern_on|pattern_index|round_corners|entry_perp|exit_perp|ignore_tools|depth_first|fm_use_shape|fm_hplus|fm_vplus|fm_moveh|zig_zag|back_forth|fm_type|entry_type|start_on_right|retracts|hit_parallel|stay_clear|cut_back|same_stroke|full_dia|stepover_feed_lock|clear_feed_lock|scallop_feed_lock|clear_periph|hit_flats|mthread_traverse_cp1|mthread_id_od|mthread_thread_dir|surface_type|surface_cut_type|surface_back_forth|surface_lace_cut_dir|surface_output_pref|surface_cut_opt|surface_offset_surfs|surface_one_pass|surface_constrain|surface_retract_opt|surface_stay_in_stock|surface_clear_stock|surface_clear_stock_type|surface_cut_over_edges|surface_skip_flats|surface_curve_cut_dir|sflow_mach_dir|sflow_mach_zorder|sflow_travel_around_mode|sflocut_type|intersect_type|intersect_cuts_type|intersect_pass_type|intersect_cleanup_from|intersect_passes_per_side|lrough_round_corners|lrough_exit_perp|lrough_xplus|lrough_xminus|lrough_zplus|lrough_zminus|lrough_autofin|lrough_spindle_dir|lrough_constant_path|lthread_stype|lthread_alternate|lthread_nom_pitch_index|wall_step|wall_top_to_bottom|wall_same_dir|wall_dcep_side|wall_swept_pocket|wall_swept_island|cut_side|s_use_adv_tol|m_use_adv_tol|wall_mode|inter_op_override|util_type|md_from_tool|md_vary_with_geo|md_vary_with_feat|md_retract_level|contour_entry_ramp_type|contour_entry_helix_type|prefer_subs|contour_ramp_down|contour_num_extra_offsets|drill_bore_cut_type|adv_exit_same_as_entry|adv_entry_type|adv_exit_type|adv_line_entry_use_crc|adv_line_entry_use_off_part_line|adv_line_entry_use_ramp|adv_line_entry_ramp_include_line|adv_line_exit_use_crc|adv_line_exit_use_off_part_line|adv_line_exit_use_ramp|adv_line_exit_ramp_include_line|adv_arc_entry_use_crc|adv_arc_entry_use_off_part_line|adv_arc_entry_use_ramp|adv_arc_entry_ramp_include_radius|adv_arc_exit_use_crc|adv_arc_exit_use_off_part_line|adv_arc_exit_use_ramp|adv_arc_exit_ramp_include_radius|drill_reverse_order|baxis_used|baxis_method|baxis_multi_trans|baxis_use_min_angle|baxis_use_max_angle|baxis_smooth_corners|baxis_vector_type|baxis_check_collisions|lock_entry_clear|lock_exit_clear|lock_entry_feed|lock_contour_feed|lock_rpm|lock_css|lock_max_rpm|lock_wrap_start_angle|lock_wrap|lock_wrap_dups|lock_wrap_dup_angle|lock_coolant|lock_dwell|lock_prog_stop|lock_pattern_on|lock_len_offset|lock_crc|lock_crc_offset|lock_prefer_canned|lock_autofin|lock_pos_approach|lock_tap_percent|lock_util_markers|lock_comment|thread_whirl_\\w+|comment|op_start|op_end|entry_clear|exit_clear|entry_feed|contour_feed|cut_width|drill_clear_plane|stock|boss_stock|rpm|rpms|time|length|css|surface_stock|surf_stock|lathe_xz_stock|lathe_cut_width|cut_tol|step|depth|od_id_face|lathe_depth|drill_dwell|drill_tap_percent|drill_peck_clearance|drill_peck_amount|drill_peck_retract|drill_bore_pulloff|drill_cb_start_riz|drill_cb_end_riz|surface_depth|material_only_clearance|lthread_angle|lthread_nominal_xd|lthread_tpi|lthread_pitch|lthread_slope|lthread_minor_xd|lthread_height_xr|lthread_run_in_x|lthread_run_in_z|lthread_run_out_x|lthread_run_out_z|lthread_first_cut|lthread_last_cut|lplunge_max_cut|lplunge_angle|lplunge_peck_amount|lplunge_peck_clearance|lplunge_peck_retract|lplunge_feed_percent|lplunge_entry_type|lathe_pattern_shift_cut_x|lathe_pattern_shift_cut_z|lathe_pattern_shift_pt_x|lathe_pattern_shift_pt_z|wrap_start_angle|wrap_dup_angle|lathe_max_rpm|pocket_entry_plunge_pt_x|pocket_entry_plunge_pt_y|pocket_entry_ramp_slope|pocket_entry_ramp_start_z|pocket_entry_ramp_max_cut|pocket_entry_ramp_wall_clear|pocket_entry_ramp_angle|pocket_entry_helix_slope|pocket_entry_helix_angle|pocket_entry_helix_start_z|pocket_entry_helix_max_cut|pocket_entry_helix_wall_clear|pocket_entry_helix_dia|pocket_entry_helix_cp_x|pocket_entry_helix_cp_y|pocket_entry_periph_start_z|pocket_entry_periph_slope|surface_entry_plunge_pt_x|surface_entry_plunge_pt_y|rapid_clearance|entry_line_len|exit_line_len|entry_rad|exit_rad|z_step_wanted|overhang|overlap|open_clearance|mthread_start_thread|mthread_end_thread|mthread_cut_dia|mthread_clear_dia|mthread_pitch|mthread_feed|surface_step_over|surface_ridge_height|surface_cut_angle|surface_desired_z|surface_constraint_faces_clear|surface_stock_tol|surface_fix_tol|surface_fixture_tol|surface_constraint_tol|surface_smooth_tol|surface_arc_fit_tol|surface_spline_tol|surface_normal_angle|surface_step_cut_ratio|surface_corner_rad|surface_max_cut_angle|cp1|curve_tolerance|auto_entry_cp|auto_entry_clear_rad|auto_exit_cp|auto_exit_clear_rad|geo_rad|min_rad|z_step|fm_clear|fm_cut_width|cut_angle|stepover_feed|clear_feed|scallop_feed|min_cut|past_stock|lthread_z_start|lthread_z_end|lthread_major_dia|lathe_surface_z|lrough_min_rad|lrough_entry_line|lrough_entry_rad|lrough_exit_rad|lrough_exit_line|lrough_start|lrough_cut_width|lrough_ramp_angle|wall_top|wall_ang|wall_bot|wall_itop|wall_iang|wall_ibot|wall_user_step|wall_shape_step|wall_ridge_height|drill_clear_plane_loc_cs|msurf_clear|msurf_stock_tol|mfixture_tol|m_zshift|contour_entry_ramp_slope|contour_entry_ramp_start_z|contour_entry_ramp_max_cut|contour_entry_ramp_angle|contour_entry_helix_slope|contour_entry_helix_start_z|contour_entry_helix_max_cut|contour_entry_helix_dia|contour_extra_offsets_val|adv_line_entry_off_part_line|adv_line_entry_off_part_angle|adv_line_entry_off_part_dist|adv_line_entry_ramp_dist|adv_line_exit_off_part_line|adv_line_exit_off_part_angle|adv_line_exit_off_part_dist|adv_line_exit_ramp_dist|adv_arc_entry_off_part_line|adv_arc_entry_off_part_dist|adv_arc_entry_ramp_dist|adv_arc_exit_off_part_line|adv_arc_exit_off_part_dist|adv_arc_exit_ramp_dist|lrough_end_limit_val|baxis_min_angle_val|baxis_max_angle_val|baxis_lead_lag_angle|baxis_collision_clearance)\\b"
+				}
+		]
+		},
+		"support-function-path": {
+			"patterns": [
+				{
+					"name": "support.function.path.gibbscam_mac",
+					"match": "(?i)\\b(add_path_\\w+|create_path|get_path_\\w+|\\w+_path_list|clear_path|copy_path|translate_path|rotate_path|mirror_path|reverse_path|path_to_geometry)\\b"
+				}
+		]
+		},
+		"support-function-process": {
+			"patterns": [
+				{
+					"name": "support.function.process.gibbscam_mac",
+					"match": "(?i)\\b(create_proc|delete_proc|insert_proc_tile|copy_proc|get_proc_list_shown|show_proc_list|hide_proc_list|redraw_proc_list|scroll_proc_list|calc_feed_speed|get_proc_status|get_proc_selected|select_proc|select_all_procs|deselect_proc|deselect_all_procs|clear_proc_list|load_process|save_process|calc_process|get_proc_data|set_proc_data|get_util_proc_data|set_util_proc_data|get_util_proc_num_fields|get_util_proc_field_name|get_basic_util_proc_name|set_basic_util_proc_name|get_basic_util_proc_data|set_basic_util_proc_data|get_custom_proc_name|set_custom_proc_name)\\b"
+				}
+		]
+		},
+		"support-parameter-process": {
+			"patterns": [
+				{
+					"name": "support.parameter.process.gibbscam_mac",
+					"match": "(?i)\\b(wrap_copy_angle|adv_line_entry_crc|adv_line_exit_crc|adv_arc_entry_crc|adv_arc_entry_rad|adv_arc_exit_crc|adv_arc_exit_rad|drill_bore_cut_dia|mzshift|msurface_clear|mstock_tol|mfix_tol|wall_angle|wall_bottom|walli_top|walli_angle|walli_bottom|drill_peck_percent|drill_peck_value|pocket_outer_as_boss|drill_feed|axis_info|curve_tol|lthread_z_start_extend|lthread_z_end_extend|lthread_x_start_extend|lthread_x_end_extend|ldrill_dwell|ldrill_peck|ldrill_clearance|ldrill_retract|ldrill_tap_percent|ldrill_feed|ldrill_tip_z|ldrill_surface_z|tool_change|lthread_minor_dia|lthread_thread_height|lthread_taper|lthread_thread_angle|lthread_cut_depth|lthread_nominal|lrough_feed_percent|lrough_peck|lrough_retract|lrough_cut_x|lrough_cut_z|lrough_shift_cut_width|lrough_cycle_sp_x|lrough_cycle_sp_z|lrough_offset_cut_depth|lthread_rpm|lrough_plunge_type|lrough_plunge_first|lrough_dir_fwd|lrough_back_and_forth|lrough_plunge_angle|lrough_rough_start|lrough_max_rpm|lrough_sfpm|lrough_feed|lrough_clearance|lrough_entry_feed|lrough_contour_feed|lrough_auto_finish_feed|lrough_turn_cut_width|lrough_stock|lrough_stock_x|lrough_stock_z|lrough_start_side_ext|surface_spline_approx_tol|surface_const_faces_clear|surface_cut_tol|surface_fixture_clear|surface_stepover|surface_efeed|surface_cfeed|surf_z|surface_z|tip_z|entry_line|exit_line|wrap_num_copies|md_process_load_h1z_feat|wall_same_dcep_side|pocket_entry_ramp_type|fm_before_zigzag|fm_back_and_forth|custom_cbset|lthread_nominal_pitch_index|lthread_taper_index|lthread_num_spring_passes|lthread_num_starts|ldrill_entry|lathe_use_auto_clear|lthread_style|lthread_cut_dir|lthread_cut_type|lthread_css|lthread_balanced_in_feed|lrough_fixed_sp|lrough_num_passes|lrough_shift_square_corners|lrough_cleanup_pass|lrough_use_deflect_comp|lrough_deflect_comp_val|lrough_multi_pass|lrough_finish_last|lrough_center_out|lrough_constant_step|lrough_peck|lrough_plunge_type|lrough_auto_finish|lrough_rough_type|lrough_css|lrough_rapid_step|lrough_monotonic|lrough_avoid_air|lrough_cut_off|lrough_cut_dir|lrough_entry_perp|lathe_clear_id|curve_cut_dir|surface_flow_mach_dir|surface_flow_mach_z_order|surface_flow_travel_around_mode|surface_flow_cut_type|surface_intersect_type|surface_cuts_type|surface_passes_type|surface_cleanup_type|surface_passes_per_side|surface_retract_option|surface_offset_surfaces|surface_back_and_forth|mthread_rapid_in|repeats|crc|wrap_copy_angle|adv_line_entry_crc|adv_line_exit_crc|adv_arc_entry_crc|adv_arc_entry_rad|adv_arc_exit_crc|adv_arc_exit_rad|msurface_clear|mstock_tol|mfix_tol|mzshift|wall_angle|wall_bottom|walli_top|walli_angle|walli_bottom|drill_peck_percent|drill_peck_value|pocket_outer_as_boss|drill_feed|axis_info|curve_tol|lthread_z_start_extend|lthread_z_end_extend|lthread_x_start_extend|lthread_x_end_extend|ldrill_dwell|ldrill_peck|ldrill_clearance|ldrill_retract|ldrill_tap_percent|ldrill_feed|ldrill_tip_z|ldrill_surface_z|tool_change|lthread_minor_dia|lthread_thread_height|lthread_taper|lthread_thread_angle|lthread_cut_depth|lthread_nominal|lrough_feed_percent|lrough_peck|lrough_retract|lrough_cut_x|lrough_cut_z|lrough_shift_cut_width|lrough_cycle_sp_x|lrough_cycle_sp_z|lrough_offset_cut_depth|lthread_rpm|lrough_plunge_type|lrough_plunge_first|lrough_dir_fwd|lrough_back_and_forth|lrough_plunge_angle|lrough_rough_start|lrough_max_rpm|lrough_sfpm|lrough_feed|lrough_clearance|lrough_entry_feed|lrough_contour_feed|lrough_auto_finish_feed|lrough_turn_cut_width|lrough_stock|lrough_stock_x|lrough_stock_z|lrough_start_side_ext|surface_spline_approx_tol|surface_const_faces_clear|surface_cut_tol|surface_fixture_clear|surface_stepover|surface_efeed|surface_cfeed|surf_z|surface_z|tip_z|entry_line|exit_line|wrap_num_copies|md_process_load_h1z_feat|wall_same_dcep_side|pocket_entry_ramp_type|fm_before_zigzag|fm_back_and_forth|custom_cbset|lthread_nominal_pitch_index|lthread_taper_index|lthread_num_spring_passes|lthread_num_starts|ldrill_entry|lathe_use_auto_clear|lthread_style|lthread_cut_dir|lthread_cut_type|lthread_css|lthread_balanced_in_feed|lrough_fixed_sp|lrough_num_passes|lrough_shift_square_corners|lrough_cleanup_pass|lrough_use_deflect_comp|lrough_deflect_comp_val|lrough_multi_pass|lrough_finish_last|lrough_center_out|lrough_constant_step|lrough_peck|lrough_plunge_type|lrough_auto_finish|lrough_rough_type|lrough_css|lrough_rapid_step|lrough_monotonic|lrough_avoid_air|lrough_cut_off|lrough_cut_dir|lrough_entry_perp|lathe_clear_id|curve_cut_dir|surface_flow_mach_dir|surface_flow_mach_z_order|surface_flow_travel_around_mode|surface_flow_cut_type|surface_intersect_type|surface_cuts_type|surface_passes_type|surface_cleanup_type|surface_passes_per_side|surface_retract_option|surface_offset_surfaces|surface_back_and_forth|mthread_rapid_in|repeats|crc|mill_drill|mill_contour|mill_rough|mill_surface|mill_thread_mill|turn_drill|turn_contour|turn_rough|turn_thread|lathe_drill|lathe_contour|lathe_rough|lathe_thread)\\b"
+				}
+		]
+		},
+		"support-constant-process": {
+			"patterns": [
+				{
+					"name": "support.constant.process.gibbscam_mac",
+					"match": "(?i)\\b(mill_drill|mill_contour|mill_rough|mill_surface|mill_thread_mill|turn_drill|turn_contour|turn_rough|turn_thread|lathe_drill|lathe_contour|lathe_rough|lathe_thread)\\b"
+				}
+		]
+		},
+		"support-function-tt": {
+			"patterns": [
+				{
+					"name": "support.function.tg.gibbscam_mac",
+					"match": "(?i)\\b(create_mill_tool|create_lathe_tool|delete_tool|move_tool_tile|insert_tool_tile|get_tool_list_shown|show_tool_list|hide_tool_list|redraw_tool_list|scroll_tool_list|get_tool_status|get_tool_selected|select_tool|select_all_tools|deselect_tool|deselect_all_tools|get_tool_data|set_tool_data|get_tg_data|set_tg_data|\\w+_toolfile)\\b"
+				}
+		]
+		},
+		"support-parameter-tt": {
+			"patterns": [
+				{
+					"name": "support.parameter.tg.gibbscam_mac",
+					"match": "(?i)\\b(type|units|material|offset|spindle_dir|id|use_id|tool_group_pos|tool_group|prime_spindle|mtool_type|mtool_num_flutes|mtool_len_offset|mtool_options|mtool_orientation|ltool_type|ltool_isize|ltool_orientation|ltool_thread_style|ltool_thread_type|ltool_thread_id_od|ltool_thread_dir|ltool_offset|ltool_cut_side|ltool_face_up|ltool_neg_side|ltool_other|mtool_holder|ltool_holder|holder_solid_ref|holder_shape_ref|mtool_holder_type|form_shape_ref|mtool_length|mtool_flute_length|mtool_radius|mtool_shank_rad|mtool_top_corner_rad|mtool_corner_rad|mtool_draft_angle|mtool_non_cut_dia|mtool_tip_angle|mtool_pitch_tpi|mtool_preset_x|mtool_preset_y|mtool_preset_z|mtool_tc_shift_x|mtool_tc_shift_y|mtool_tc_shift_z|mtool_lead_tip|mtool_tip_rad|mtool_inner_top_corner_rad|mtool_bottom_rad|mtool_top_rad|mtool_out_of_holder_len|ltool_size|ltool_thick|ltool_width|ltool_length|ltool_tip_rad|ltool_insert_angle|ltool_tip_offset|ltool_preset_pt_x|ltool_preset_pt_z|ltool_turret_shift_x|ltool_turret_shift_z|ltool_face_angle|ltool_side_angle|ltool_tip_width|ltool_tip_length|ltool_thread_pitch|ltool_thread_flat_len|ltool_thread_insert_width|ltool_thread_edge_pos_x|ltool_thread_edge_pos_z|ltool_mid_angle|ltool_tip_center_to_preset_x|ltool_tip_center_to_preset_z|ltool_face_relief|ltool_dia_relief|ltool_holder_thickness|ltool_b_axis|ltool_util_len|ltool_util_dia|ltool_util_angle|tool_preset_x|tool_preset_y|tool_preset_z|tool_tc_shift_x|tool_tc_shift_y|tool_tc_shift_z)\\b"
+				}
+		]
+		},
+		"support-function-solid": {
+			"patterns": [
+				{
+					"name": "support.function.solid.gibbscam_mac",
+					"match": "(?i)\\b(select_solid|deselect_solid|select_all_solids|deselect_all_solids|select_face|select_edge|select_face_edges|extract_sel_edge|delete_solid|copy_solid|explode_solid|extrude|extrude_surf|revolve|translate_solid|rotate_solid|mirror_solid|scale_solid|transform_solid|solid_union|solid_subtract|solid_intersect|get_solid_bagged|set_solid_bagged|get_solid_type|set_solid_type|get_solid_name|set_solid_name|get_solid_comment|set_solid_comment|get_solid_face_uv|get_solid_face_point|get_solid_face_normal|get_face_type|get_face_radius|get_solid_extents|get_face_extents|get_edge_extents|get_solid_shrink_wrap_box|get_solid_cs|set_solid_cs)\\b"
+				}
+		]
+		},
+		"support-function-engrave": {
+			"patterns": [
+				{
+					"name": "support.function.engrave.gibbscam_mac",
+					"match": "(?i)\\b(create_engrave_text|get_engrave_data|set_engrave_data)\\b"
+				}
+		]
+		},
+		"support-parameter-engrave": {
+			"patterns": [
+				{
+					"name": "support.parameter.engrave.gibbscam_mac",
+					"match": "(?i)\\b(justify|position|text_shape|text_flow|lines_flow|pos_x|pos_y|pos_z|height|dist_chars|dist_words|dist_lines|radius|angle)\\b"
+				}
+		]
+		},
+		"support-function-profiler": {
+			"patterns": [
+				{
+					"name": "support.function.profiler.gibbscam_mac",
+					"match": "(?i)\\b(get_num_selected_shapes|get_profiler_state|get_profiler_depth|set_profiler_state|set_profiler_depth|get_num_profiler_shapes|get_profiler_shape_selected|set_profiler_shape_selected|get_shape_data|get_shape_path|filter_shapes|sort_shapes|set_profiler_markers|combine_shapes)\\b"
+				}
+		]
+		},
+		"support-constant-profiler": {
+			"patterns": [
+				{
+					"name": "support.constant.profiler.gibbscam_mac",
+					"match": "(?i)\\b(union|difference|intersection|trim_inside|trim_outside|slice|smallest_first|largest_first|open|closed|dir_cw|dir_ccw|shapes|holes|inners|outers|open|closed|open\\+closed|open|closed|dir_cw|dir_ccw|shape|hole|inner|outer|area|length|extents|center|radius)\\b"
+				}
+		]
+		},
+		"support-function-geo": {
+			"patterns": [
+				{
+					"name": "support.function.geo.gibbscam_mac",
+					"match": "(?i)\\b(angle_line|point_xy|point_ca|point_2l|point_lc|point_2c|point_2p|point_copy|point_translate|point_rotate|point_mirror|point_get_data|create_point|line_2p|line_hp|line_vp|line_pa|line_pc|line_ca|line_2c|line_ld|line_copy|create_line|circle_cr|circle_cp|circle_2p|circle_2pr|circle_2lr|circle_3p|circle_pl|circle_plr|circle_pc|circle_pcr|circle_lcr|circle_2cr|circle_copy|circle_translate|circle_rotate|circle_mirror|circle_get_data|create_circle|contour|contour_3d|start|rapid|line|arc|points|point|fit_curve|segment_sel_curve|create_fillet|create_chamfer|select_geo|deselect_geo|select_all_geo|deselect_all_geo|select_shape|set_markers|deselect_shape|select_hole|deselect_hole|select_all_holes|deselect_all_holes|get_line_feed_status|set_line_feed_status|get_geo_attr_color|set_geo_attr_color|select_geo_attr_color|get_geo_user_color|set_geo_user_color|select_geo_by_user_color|delete_geo|delete_shape|get_selection_list|set_selection_list|get_num_feat_selected|get_selected_geo_ref|get_feat_type|get_feat_start|get_feat_end|get_circle_data|get_arc_data|get_selected_extents|sort_geo|translate_geo|rotate_geo|mirror_geo|scale_geo|force_depth)\\b"
+				}
+		]
+		}
+	},
+	"scopeName": "source.gibbscam_mac"
+}

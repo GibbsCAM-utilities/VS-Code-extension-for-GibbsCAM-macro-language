@@ -1,0 +1,35 @@
+{
+  "name": "gibbscam-macro-language",
+  "displayName": "GibbsCAM Macro Language",
+  "description": "Support macro language from GibbsCAM.",
+  "version": "0.2.2",
+  "publisher": "GibbsCAM-utilities",
+  "author": {
+    "name": "alexandre.scherly"
+  },
+  "license":"SEE LICENSE IN LICENSE.txt",
+  "pricing": "Free",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GibbsCAM-utilities/VS-Code-extension-for-GibbsCAM-macro-language.git"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "gibbscam_mac",
+      "aliases": ["GibbsCAM Macro", "gibbscam_mac"],
+      "extensions": ["mac","dlg"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "gibbscam_mac",
+      "scopeName": "source.gibbscam_mac",
+      "path": "./syntaxes/gibbscam_mac.tmLanguage.json"
+    }]
+  }
+}
