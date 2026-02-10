@@ -2,7 +2,7 @@
   "name": "gibbscam-macro-language",
   "displayName": "GibbsCAM Macro Language",
   "description": "Support macro language from GibbsCAM.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publisher": "GibbsCAM-utilities",
   "author": {
     "name": "alexandre.scherly"

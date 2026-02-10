@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.2.3] - 2026.02.10
+
+- Add command `format$` (undocumented)
+- Fix some bad documented commands
+
 ## [0.2.2] - 2023.12.15
 
 - Add build

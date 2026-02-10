@@ -31,3 +31,7 @@ Translate to english
 ### 0.2.2
 
 Add packaging trough `vsce` for easier usage.
+
+### 0.2.3
+
+Add `format$` (undocumented) and fix some bad documented commands

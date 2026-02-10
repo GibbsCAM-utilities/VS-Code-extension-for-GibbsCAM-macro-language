@@ -367,7 +367,7 @@
 			"patterns": [
 				{
 					"name": "support.function.variables.gibbscam_mac",
-					"match": "(?i)\\b(abs|int|sqrt|sin|cos|tan|asin|acos|atan|len|val|asc|degrees|radians|eval_text|esc_text|swap_values)\\b|\\b((left|right|mid|ltrim|rtrim|trim|lcase|ucase|chr)\\$)"
+					"match": "(?i)\\b(abs|int|sqrt|sin|cos|tan|asin|acos|atan|len|val|asc|degrees|radians|eval_text|esc_text|swap_values)\\b|\\b((left|right|mid|ltrim|rtrim|trim|lcase|ucase|chr|format)\\$)"
 				}
 		]
 		},
@@ -495,7 +495,7 @@
 			"patterns": [
 				{
 					"name": "support.function.part.gibbscam_mac",
-					"match": "(?i)\\b(\\w+et_part_data|\\w+et_multi_part_data|get_num_part_comment_lines|get_line_part_comment|get_add_part_comment|get_clear_part_comment|get_num_prog_notes_lines|get_line_prog_notes|get_add_prog_notes|get_clear_prog_notes|\\w+et_spindle_num|\\w+et_wp_part_offset|move_part_origin|\\w+et_mtm_data)\\b"
+					"match": "(?i)\\b(\\w+et_part_data|\\w+et_multi_part_data|get_num_part_comment_lines|get_line_part_comment|add_line_part_comment|clear_part_comment|get_num_prog_notes_lines|get_line_prog_notes|add_line_prog_notes|clear_prog_notes|\\w+et_spindle_num|\\w+et_wp_part_offset|move_part_origin|\\w+et_mtm_data)\\b"
 				}
 		]
 		},
